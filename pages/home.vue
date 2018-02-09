@@ -2,6 +2,8 @@
   <section class="page-container">
     <Navbar></Navbar>
     <div class="sectionWrapper">
+
+
       <section id="devices">
         <div class="sectionTitleBar">
           <h3 class="title">Devices</h3>
@@ -13,6 +15,8 @@
           <device></device>
         </div>
       </section>
+
+      
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
