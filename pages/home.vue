@@ -3,6 +3,17 @@
     <Navbar></Navbar>
     <div class="sectionWrapper">
 
+      <section id="devices">
+        <div class="sectionTitleBar">
+          <h3 class="title">Devices</h3>
+          <a class="button is-primary">Add Device</a>
+        </div>
+        <div class="sectionCardWrapper">
+          <device></device>
+          <device></device>
+          <device></device>
+        </div>
+      </section>
 
       <section id="devices">
         <div class="sectionTitleBar">
@@ -16,18 +27,8 @@
         </div>
       </section>
 
-      
-      <section id="groups">
-        <div class="sectionTitleBar">
-          <h3 class="title">Groups</h3>
-          <a class="button is-primary">Add Group</a>
-        </div>
-        <div class="sectionCardWrapper">
-          <device></device>
-          <device></device>
-          <device></device>
-        </div>
-      </section>
+
+
       <section id="events">
         <div class="sectionTitleBar">
           <h3 class="title">Events</h3>
@@ -44,6 +45,7 @@
           </alert>
         </div>
       </section>
+
     </div>
   </section>
 </template>
@@ -72,14 +74,6 @@ export default {
     flex-flow:row;
   }
 
-  .sectionTitleBar .title{
-    margin-bottom: 10px;
-  }
-
-  .sectionTitleBar .button{
-    margin-left:20px;
-  }
-
   .sectionWrapper{
     position: absolute;
     top: 52px;
@@ -90,27 +84,26 @@ export default {
     padding:25px;
     display: flex;
     flex-direction: column;
-
-  }
-
-  .sectionWrapper section{
-    height:40%;
-    position:relative;
-  }
-
-  .sectionWrapper section:last-child{
-    height:20%;
   }
 
   .sectionCardWrapper{
     display:flex;
     flex-flow:row;
     overflow-x: scroll;
-    position:absolute;
-    top:46px;
-    bottom:0;
-    right: 0;
-    left:0;
+    width:100%;
+  }
+
+  .sectionCardWrapper section{
+    padding-bottom: 15px;
+  }
+
+  .sectionTitleBar{
+    display: flex;
+    align-items: center;
+  }
+  .sectionTitleBar h3{
+    margin-bottom:0px;
+    margin-right:15px;
   }
 
   .eventWrapper{

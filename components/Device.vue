@@ -39,20 +39,9 @@ export default {
 </script>
 
 <style scoped>
+
   .card{
-    max-width: 20%;
-    min-width:350px;
     margin:10px;
-    height:auto;
-  }
-
-  .card-content{
-    overflow: hidden;
-  }
-
-  .card-footer{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    width:350px;
   }
 </style>
