@@ -7,7 +7,7 @@
 		<section id="login">
 			<div class="field">
 			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Email" v-model="username">
+			    <input class="input" type="email" placeholder="Email" v-model="loginUsername">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-envelope"></i>
 			    </span>
@@ -18,7 +18,7 @@
 			</div>
 			<div class="field">
 			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Password" v-model="password">
+			    <input class="input" type="password" placeholder="Password" v-model="loginPassword">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-lock"></i>
 			    </span>
@@ -26,7 +26,7 @@
 			</div>
 			<div class="field">
 			  <p class="control">
-			    <button class="button is-success">
+			    <button @click="requestToken" class="button is-success">
 			      Login
 			    </button>
 
@@ -38,7 +38,7 @@
 		<section id="register">
 			<div class="field">
 			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Username" v-model="username">
+			    <input class="input" type="email" placeholder="Username" v-model="createUsername">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-envelope"></i>
 			    </span>
@@ -50,7 +50,7 @@
 
 			<div class="field">
 			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Email" v-model="email">
+			    <input class="input" type="email" placeholder="Email" v-model="createEmail">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-envelope"></i>
 			    </span>
@@ -62,7 +62,7 @@
 			
 			<div class="field">
 			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Password" v-model="password">
+			    <input class="input" type="password" placeholder="Password" v-model="createPassword">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-lock"></i>
 			    </span>
@@ -81,7 +81,7 @@
 
 			<div class="field">
 			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="First Name" v-model="firstName">
+			    <input class="input" type="password" placeholder="First Name" v-model="createFirstName">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-lock"></i>
 			    </span>
@@ -90,7 +90,7 @@
 
 			<div class="field">
 			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Last Name" v-model="lastName">
+			    <input class="input" type="password" placeholder="Last Name" v-model="createLastName">
 			    <span class="icon is-small is-left">
 			      <i class="fas fa-lock"></i>
 			    </span>
@@ -123,20 +123,23 @@
 
 
 <script>
-
+const axios = require('axios');
 import Navbar from '~/components/Navbar.vue';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 export default {
 
 
 	data: function(){
 		return {
-			username: "",
-			email: "", 
-			password: "",
+			loginUsername: "",
+			loginPassword: "",
+			createUsername: "",
+			createEmail: "", 
+			createPassword: "",
 			confirmPassword: "",
-			firstName: "",
-			lastName: ""
+			createFirstName: "",
+			createLastName: ""
 
 		}
 		
@@ -146,6 +149,16 @@ export default {
 
 	components: {
 		Navbar
+	},
+
+	methods: {
+		requestToken: function() {
+			var data = {password: this.loginPassword, username: this.loginUsername, grant_type: 'password', scope: 'write', client_id: 'api-user'};
+
+			$.post("https://api.myreactorhome.com/user/oauth/token", data, function(result){
+				console.log(result);
+		    });
+		}
 	}
 }
 
