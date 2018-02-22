@@ -3,115 +3,115 @@
     <Navbar></Navbar>
 
 
-	<div id="loginSectionWrapper">
-		<section id="login">
-			<div class="field">
-			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Email" v-model="loginUsername">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-envelope"></i>
-			    </span>
-			    <span class="icon is-small is-right">
-			      <i class="fas fa-check"></i>
-			    </span>
-			  </p>
-			</div>
-			<div class="field">
-			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Password" v-model="loginPassword">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-lock"></i>
-			    </span>
-			  </p>
-			</div>
-			<div class="field">
-			  <p class="control">
-			    <button @click="requestToken" class="button is-success">
-			      Login
-			    </button>
+  <div id="loginSectionWrapper">
+    <section id="login">
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="test" placeholder="Username" v-model="loginUsername">
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Password" v-model="loginPassword">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button @click="requestToken" class="button is-success">
+            Login
+          </button>
 
 
-			  </p>
-			</div>
-		</section>
+        </p>
+      </div>
+    </section>
 
-		<section id="register">
-			<div class="field">
-			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Username" v-model="createUsername">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-envelope"></i>
-			    </span>
-			    <span class="icon is-small is-right">
-			      <i class="fas fa-check"></i>
-			    </span>
-			  </p>
-			</div>
+    <section id="register">
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="email" placeholder="Username" v-model="createUsername">
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </p>
+      </div>
 
-			<div class="field">
-			  <p class="control has-icons-left has-icons-right">
-			    <input class="input" type="email" placeholder="Email" v-model="createEmail">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-envelope"></i>
-			    </span>
-			    <span class="icon is-small is-right">
-			      <i class="fas fa-check"></i>
-			    </span>
-			  </p>
-			</div>
-			
-			<div class="field">
-			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Password" v-model="createPassword">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-lock"></i>
-			    </span>
-			  </p>
-			</div>
-			
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="email" placeholder="Email" v-model="createEmail">
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </p>
+      </div>
+      
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Password" v-model="createPassword">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      
 
-			<div class="field">
-			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Confirm Password" v-model="confirmPassword">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-lock"></i>
-			    </span>
-			  </p>
-			</div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Confirm Password" v-model="confirmPassword">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
 
-			<div class="field">
-			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="First Name" v-model="createFirstName">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-lock"></i>
-			    </span>
-			  </p>
-			</div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="First Name" v-model="createFirstName">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
 
-			<div class="field">
-			  <p class="control has-icons-left">
-			    <input class="input" type="password" placeholder="Last Name" v-model="createLastName">
-			    <span class="icon is-small is-left">
-			      <i class="fas fa-lock"></i>
-			    </span>
-			  </p>
-			</div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Last Name" v-model="createLastName">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
 
-			<div class="field">
-			  <p class="control">
-			    <button class="button is-success">
-			      Register
-			    </button>
-			  </p>
-			</div>
-
-
+      <div class="field">
+        <p class="control">
+          <button class="button is-success">
+            Register
+          </button>
+        </p>
+      </div>
 
 
 
-		</section>
 
-	</div>
+
+    </section>
+
+  </div>
 
 
   </section>
@@ -123,43 +123,73 @@
 
 
 <script>
-const axios = require('axios');
 import Navbar from '~/components/Navbar.vue';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 export default {
 
 
-	data: function(){
-		return {
-			loginUsername: "",
-			loginPassword: "",
-			createUsername: "",
-			createEmail: "", 
-			createPassword: "",
-			confirmPassword: "",
-			createFirstName: "",
-			createLastName: ""
+  data: function(){
+    return {
+      loginUsername: "",
+      loginPassword: "",
+      createUsername: "",
+      createEmail: "", 
+      createPassword: "",
+      confirmPassword: "",
+      createFirstName: "",
+      createLastName: ""
 
-		}
-		
-	},
+    }
+    
+  },
 
-	name: "login",
+  name: "login",
 
-	components: {
-		Navbar
-	},
+  components: {
+    Navbar
+  },
+  mounted: function() {
+    //check if cookie already exists
+    const token = this.getCookie("token");
+    if (token !== "") this.$router.push("home");
+  },
+  methods: {
+    requestToken: function() {
+      let data = {password: this.loginPassword, username: this.loginUsername, grant_type: 'password', scope: 'write', client_id: 'api-user'};
 
-	methods: {
-		requestToken: function() {
-			var data = {password: this.loginPassword, username: this.loginUsername, grant_type: 'password', scope: 'write', client_id: 'api-user'};
+      $.post("https://api.myreactorhome.com/user/oauth/token", data, this.loginHandler);
+    },
+    loginHandler: function(result, status) {
+      this.setCookie(result.access_token, result.expires_in);
+      this.$router.push("home");
+    },
+    setCookie: function(token, ex_seconds) {
+      let d = new Date();
+      d.setTime(d.getTime() + (ex_seconds));
+      let expires = "expires="+ d.toUTCString();
+      document.cookie = "username=" + this.loginUsername + ",token=" + token + "," + expires + ",path=/";
+      console.log(document.cookie);
+    },
+    getCookie: function(cname) {
+      const name = cname + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(',');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
+    checkCookie: function() {
 
-			$.post("https://api.myreactorhome.com/user/oauth/token", data, function(result){
-				console.log(result);
-		    });
-		}
-	}
+    }
+
+  }
 }
 
 
@@ -170,24 +200,24 @@ export default {
 
 
 <style type="text/css">
-	
-	#loginSectionWrapper{
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height:100%;
-		width:100%;
-	}
+  
+  #loginSectionWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:100%;
+    width:100%;
+  }
 
-	
-	#login,#register{
+  
+  #login,#register{
 
-		border: black thin solid;
-		border-radius: 25px;
-		padding: 15px;
+    border: black thin solid;
+    border-radius: 25px;
+    padding: 15px;
 
 
-	}
+  }
 
 
 

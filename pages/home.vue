@@ -56,8 +56,39 @@ import Alert from '~/components/Alert.vue';
 
 export default {
   
-
   name: "home",
+  mounted: function(){
+    const token = this.getCookie("token");
+
+    if (token === "") {
+      alert("Session time out, please log in again");
+      this.$router.push("login");
+    }
+
+    const data = {Authorization: "Bearer " + token};
+
+    // $.get("https://api.myreactorhome.com/user/api/groups/1", data, this.getGroupInfoHandler);
+  },
+  methods: {
+    getCookie: function(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(',');
+      for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    },
+    getGroupInfoHandler: function(result, status) {
+      console.log(status);
+    }
+  },
   components: {
     Device,
     Navbar,
