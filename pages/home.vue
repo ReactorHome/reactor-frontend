@@ -57,25 +57,34 @@ import Alert from '~/components/Alert.vue';
 export default {
   
   name: "home",
-  mounted: function(){
+  data: function() {
+    return {
+
+    }
+  },
+  created() {
+    
+  },
+  beforeMount() {
     const token = this.getCookie("token");
 
-    if (token === "") {
-      alert("Session time out, please log in again");
+    if (token === "" || !token) {
       this.$router.push("login");
+    } else {
+      this.getGroupInfo("token");
+      this.getUserGroups("token");
     }
+  },
+  mounted: function() {
 
-    const data = {Authorization: "Bearer " + token};
-
-    // $.get("https://api.myreactorhome.com/user/api/groups/1", data, this.getGroupInfoHandler);
   },
   methods: {
     getCookie: function(cname) {
-      var name = cname + "=";
-      var decodedCookie = decodeURIComponent(document.cookie);
-      var ca = decodedCookie.split(',');
-      for(var i = 0; i <ca.length; i++) {
-        var c = ca[i];
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(',');
+      for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0) == ' ') {
           c = c.substring(1);
         }
@@ -85,7 +94,26 @@ export default {
       }
       return "";
     },
+    getGroupInfo: function(token) {
+      $.ajax({
+        url: "https://api.myreactorhome.com/user/api/groups/1",
+        type: "GET",
+        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
+        success: this.getGroupInfoHandler
+      });
+    },
+    getUserGroups: function(token) {
+      $.ajax({
+        url: "https://api.myreactorhome.com/user/api/users/me/groups",
+        type: "GET",
+        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
+        success: this.getUserGroupsHandler
+      });
+    },
     getGroupInfoHandler: function(result, status) {
+      console.log(status);
+    },
+    getUserGroupsHandler: function(result, status) {
       console.log(status);
     }
   },
