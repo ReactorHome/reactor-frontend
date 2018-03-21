@@ -148,6 +148,8 @@ export default {
   components: {
     Navbar
   },
+
+  //This will run on page load
   mounted: function() {
     //check if cookie already exists
     const token = this.getCookie("token");
@@ -155,21 +157,52 @@ export default {
   },
   methods: {
     requestToken: function() {
-      let data = {password: this.loginPassword, username: this.loginUsername, grant_type: 'password', scope: 'write', client_id: 'api-user'};
+      let loginCreds = {password: this.loginPassword, username: this.loginUsername, grant_type: 'password', scope: 'write', client_id: 'api-user'};
 
-      $.post("https://api.myreactorhome.com/user/oauth/token", data, this.loginHandler);
+      console.log("Into request Token")
+
+      $.post("https://api.myreactorhome.com/user/oauth/token", loginCreds, this.loginHandler)
+        .fail(function(){
+          console.log("There was an error loggin in!");
+        });
     },
+
     loginHandler: function(result, status) {
-      this.setCookie(result.access_token, result.expires_in);
+      console.log("result:");
+      console.log(result);
+
+      console.log("Into Login Handler");
+
+      let currentDT = Date.now();
+      let expireTime = currentDT + result.expires_in;
+
+      console.log("Current UTC: " + currentDT + " new expire time: " + expireTime);
+
+      if(typeof(Storage) !== "undefined"){
+        localStorage.accessToken = result.access_token;
+        localStorage.expires = expireTime;
+        localStorage.refreshToken = result.refresh_token
+
+      }else{
+        console.log("This browser doesnt support web storage!")
+      }
+
+      
+
+
+
+      //this.setCookie(result.access_token, expireTime, result.refresh_token);
       this.$router.push("home");
     },
-    setCookie: function(token, ex_seconds) {
+
+    setCookie: function(token, ex_seconds, refreshToken) {
       let d = new Date();
       d.setTime(d.getTime() + (ex_seconds));
       let expires = "expires="+ d.toUTCString();
-      document.cookie = "username=" + this.loginUsername + ",token=" + token + "," + expires + ",path=/";
+      document.cookie = "username=" + this.loginUsername + ",token=" + token + "," + expires + ",refreshToken=" + refreshToken + ",path=/";
       console.log(document.cookie);
     },
+
     getCookie: function(cname) {
       const name = cname + "=";
       const decodedCookie = decodeURIComponent(document.cookie);
