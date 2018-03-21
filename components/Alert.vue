@@ -22,7 +22,6 @@ export default {
     }
   },
   mounted: function() {
-    console.log(this.type);
     switch(this.type) {
       case "warning":
         this.activeClass = "is-warning";
