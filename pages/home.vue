@@ -10,9 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device></device>
-          <device></device>
-          <device></device>
+          <!-- <device v-for="group in groupResultsesults" v-bind:groupData="group"></device> -->
         </div>
       </section>
 
@@ -23,7 +21,7 @@
           <a class="button is-primary">Add Group</a>
         </div>
         <div class="sectionCardWrapper">
-          <group></group>
+          <group v-for="group in this.groupResults" :key="group.id" :group="group"></group>
         </div>
       </section>
       <section id="events">
@@ -57,7 +55,11 @@ export default {
   
   name: "home",
   data: function(){
-    groupResults: []
+    return{
+      groupResults: [],
+      hubID: [],
+      bearerToken:""
+    }
   },
 
 
@@ -128,8 +130,14 @@ export default {
         failure: console.log("Couldnt get group info")
       });
     },
-    getHubInfo: function(token){
-
+    getHubInfo: function(hubID){
+      $.ajax({
+        url: "https://api.myreactorhome.com/device/api/" + hubID + "/hub",
+        type: "GET",
+        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
+        success: this.getGroupInfoHandler,
+        failure: console.log("Couldnt get group info")
+      });
 
     },
     getGroupInfoHandler: function(result, status) {
@@ -137,12 +145,10 @@ export default {
       
     },
     getUserGroupsHandler: function(result, status) {
-      console.log(status);
-      console.log(result);
       let groups = result.groups;
       for(let group of groups){
-        console.log(group);
-        console.log("Group Owner ID: " + group.owner.email);
+
+        getHubInfo(group.hubID);
       }
 
       this.groupResults = result.groups;

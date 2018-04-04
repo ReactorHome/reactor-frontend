@@ -3,7 +3,7 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          {{ groupName }}
+          {{ group.name }}
         </p>
         <p class="card-header-icon" aria-label="more options">
           <span class="icon has-text-danger">
@@ -32,12 +32,9 @@
 
 export default {
   name: "group",
-  // model: {
-  //   groupName: ""
-  // },
-  props: {
-    groupName: ""
-  }
+  props: [
+    "group"
+  ]
 }
 </script>
 
