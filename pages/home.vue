@@ -124,13 +124,18 @@ export default {
       });
     },
     getUserGroups: function(token) {
-      $.ajax({
-        url: "https://api.myreactorhome.com/user/api/users/me/groups",
-        type: "GET",
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
-        success: this.getUserGroupsHandler,
-        failure: console.log("Couldnt get group info")
-      });
+      const options = {
+          method: 'get',
+          url: 'https://api.myreactorhome.com/user/api/users/me/groups',
+          headers: {'Authorization' : "Bearer " + token}
+      };
+      axios(options)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     },
     getHubInfo: function(hubID){
       $.ajax({
