@@ -51,6 +51,8 @@ import Navbar from '~/components/Navbar.vue';
 import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
 
+const axios = require('axios');
+
 export default {
   
   name: "home",
@@ -148,7 +150,7 @@ export default {
       let groups = result.groups;
       for(let group of groups){
 
-        getHubInfo(group.hubID);
+        //getHubInfo(group.hubID);
       }
 
       this.groupResults = result.groups;
