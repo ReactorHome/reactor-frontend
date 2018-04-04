@@ -3,7 +3,7 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          Front Door Camera
+          {{ device.name }}
         </p>
         <p class="card-header-icon" aria-label="more options">
           <span class="icon has-text-danger">
@@ -29,12 +29,11 @@
 </template>
 
 <script>
-
 export default {
   name: "device",
-  components: {
-    
-  }
+  props: [
+    "device"
+  ],
 }
 </script>
 

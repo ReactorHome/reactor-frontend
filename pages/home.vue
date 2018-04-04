@@ -10,7 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <!-- <device v-for="group in groupResultsesults" v-bind:groupData="group"></device> -->
+          <device v-for="device in this.deviceResults" :key="device.id" :device="device"></device>
         </div>
       </section>
 
@@ -59,61 +59,46 @@ export default {
   data: function(){
     return{
       groupResults: [],
+      deviceResults: [],
       hubID: [],
-      bearerToken:""
+      bearerToken:"",
+      axiosInstance: null,
+      hubIds: []
     }
   },
 
 
   created() {
-    
-  },
-  beforeMount() {
 
 
-    //Getting data from local storage
+        //Getting data from local storage
 
     if(typeof(Storage) !== "undefined"){
       if(localStorage.refreshToken){
         if(Number(localStorage.expires) >= Date.now()){
           //REFRESH THE TOKEN
         }
-        const token = localStorage.accessToken;
-        this.getUserGroups(token);
+        this.bearerToken = localStorage.accessToken;
+
       }else{
         this.$router.push("login");
       }
     }
 
+    this.axiosInstance = axios.create({
+      baseURL: 'https://api.myreactorhome.com/',
+      timeout: 1000,
+      headers: {'Authorization' : "Bearer " + this.bearerToken}
+    });
+  },
+  beforeMount() {
 
-    // const token = this.getCookie("token");
-
-    // if (token === "" || !token) {
-    //   this.$router.push("login");
-    // } else {
-    //   //this.getGroupInfo("token");
-    //   this.getUserGroups("token");
-    // }
+    this.getUserGroups(this.bearerToken);
   },
   mounted: function() {
 
   },
   methods: {
-    // getCookie: function(cname) {
-    //   let name = cname + "=";
-    //   let decodedCookie = decodeURIComponent(document.cookie);
-    //   let ca = decodedCookie.split(',');
-    //   for(let i = 0; i <ca.length; i++) {
-    //     let c = ca[i];
-    //     while (c.charAt(0) == ' ') {
-    //       c = c.substring(1);
-    //     }
-    //     if (c.indexOf(name) == 0) {
-    //       return c.substring(name.length, c.length);
-    //     }
-    //   }
-    //   return "";
-    // },
     getGroupInfo: function(token) {
       $.ajax({
         url: "https://api.myreactorhome.com/user/api/groups/1",
@@ -124,44 +109,52 @@ export default {
       });
     },
     getUserGroups: function(token) {
-      const options = {
-          method: 'get',
-          url: 'https://api.myreactorhome.com/user/api/users/me/groups',
-          headers: {'Authorization' : "Bearer " + token}
-      };
-      axios(options)
+      this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
           console.log(response);
+          this.getUserGroupsHandler(response.data, response.status);
         })
         .catch(error => {
             console.log(error);
         });
     },
-    getHubInfo: function(hubID){
-      $.ajax({
-        url: "https://api.myreactorhome.com/device/api/" + hubID + "/hub",
-        type: "GET",
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
-        success: this.getGroupInfoHandler,
-        failure: console.log("Couldnt get group info")
-      });
 
+
+
+    getHubInfo: function(hubID){
+      this.axiosInstance.get("device/api/" + hubID + "/hub")
+        .then(response => {
+          console.log(response);
+          this.getHubInfoHandler(response.data, response.status);
+        })
+        .catch(error => {
+            console.log(error);
+        });
     },
+    getHubInfoHandler: function(result, status){
+      this.deviceResults = result.devices;
+      console.log(this.deviceResults);
+    },
+
+
+
     getGroupInfoHandler: function(result, status) {
       console.log(status);
       
     },
     getUserGroupsHandler: function(result, status) {
-      let groups = result.groups;
-      for(let group of groups){
+      this.groupResults = result.groups;
+      for(let group of this.groupResults){
+        console.log("HubID: " + group.hubId);
 
-        //getHubInfo(group.hubID);
+        if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
+          this.hubIds.push(group.hubId);
+        }
+
+        
       }
 
-      this.groupResults = result.groups;
-
-
-
+      this.getHubInfo(this.hubIds[0]);
     },
     refreshAuthToken(refreshToken){
 
