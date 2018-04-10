@@ -59,7 +59,7 @@
           </span>
         </p>
       </div>
-      
+
       <div class="field">
         <p class="control has-icons-left">
           <input class="input" type="password" placeholder="Password" v-model="createPassword">
@@ -68,7 +68,7 @@
           </span>
         </p>
       </div>
-      
+
 
       <div class="field">
         <p class="control has-icons-left">
@@ -133,14 +133,14 @@ export default {
       loginUsername: "",
       loginPassword: "",
       createUsername: "",
-      createEmail: "", 
+      createEmail: "",
       createPassword: "",
       confirmPassword: "",
       createFirstName: "",
       createLastName: ""
 
     }
-    
+
   },
 
   name: "login",
@@ -187,10 +187,6 @@ export default {
         console.log("This browser doesnt support web storage!")
       }
 
-      
-
-
-
       //this.setCookie(result.access_token, expireTime, result.refresh_token);
       this.$router.push("home");
     },
@@ -233,7 +229,7 @@ export default {
 
 
 <style type="text/css">
-  
+
   #loginSectionWrapper{
     display: flex;
     align-items: center;
@@ -242,7 +238,7 @@ export default {
     width:100%;
   }
 
-  
+
   #login,#register{
 
     border: black thin solid;

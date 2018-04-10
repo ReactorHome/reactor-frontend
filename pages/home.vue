@@ -14,7 +14,7 @@
         </div>
       </section>
 
-      
+
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
@@ -52,53 +52,86 @@ import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
 
 const axios = require('axios');
+const lodash = require('lodash');
 
 export default {
-  
+
   name: "home",
-  data: function(){
-    return{
+  data: function () {
+    return {
+
       groupResults: [],
       deviceResults: [],
-      hubID: [],
-      bearerToken:"",
+      bearerToken: "",
       axiosInstance: null,
       hubIds: []
     }
   },
 
+  beforeCreate(){
 
+  },
   created() {
-
-
-        //Getting data from local storage
-
-    if(typeof(Storage) !== "undefined"){
-      if(localStorage.refreshToken){
-        if(Number(localStorage.expires) >= Date.now()){
-          //REFRESH THE TOKEN
-        }
-        this.bearerToken = localStorage.accessToken;
-
-      }else{
-        this.$router.push("login");
-      }
-    }
-
-    this.axiosInstance = axios.create({
-      baseURL: 'https://api.myreactorhome.com/',
-      timeout: 1000,
-      headers: {'Authorization' : "Bearer " + this.bearerToken}
-    });
+    this.retrieveToken();
   },
   beforeMount() {
-
-    this.getUserGroups(this.bearerToken);
+    this.createAxiosInstance();
   },
   mounted: function() {
 
   },
   methods: {
+    createAxiosInstance: function(){
+      this.axiosInstance = axios.create({
+        baseURL: 'https://api.myreactorhome.com/',
+        timeout: 1000,
+        headers: {'Authorization' : "Bearer " + this.bearerToken}
+      });
+      this.getUserGroups();
+    },
+    retrieveToken: function(){
+      if (typeof(Storage) !== "undefined") {
+        if (localStorage.refreshToken) {
+          if (Number(localStorage.expires) <= Date.now()) {
+            this.refreshToken()
+          }else{
+            this.bearerToken = localStorage.accessToken;
+          }
+        }
+      } else {
+        this.$router.push("login");
+      }
+    },
+    refreshToken: function(){
+      console.log("Getting new token");
+      let bodyFormData = new FormData();
+      const token = localStorage.refreshToken;
+      bodyFormData.append('grant_type', 'refresh_token');
+      bodyFormData.append('client_id', 'api-user');
+      bodyFormData.append('refresh_token', token);
+      axios({
+        method: 'post',
+        url: 'https://api.myreactorhome.com/user/oauth/token',
+        data: bodyFormData,
+        config: {headers: {'Content-Type': 'multipart/form-data'}}
+      })
+        .then(function (response) {
+          console.log(response);
+          let result = response.data;
+          let currentDT = Date.now();
+          let expireTime = currentDT + result.expires_in;
+
+          localStorage.accessToken = result.access_token;
+          localStorage.expires = expireTime;
+          localStorage.refreshToken = result.refresh_token;
+        })
+        .catch(function (response) {
+          //handle error
+          console.log(response);
+        });
+    },
+
+
     getGroupInfo: function(token) {
       $.ajax({
         url: "https://api.myreactorhome.com/user/api/groups/1",
@@ -108,7 +141,7 @@ export default {
         failure: console.log("Couldnt get group info")
       });
     },
-    getUserGroups: function(token) {
+    getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
           console.log(response);
@@ -118,9 +151,18 @@ export default {
             console.log(error);
         });
     },
+    getUserGroupsHandler: function(result, status) {
+      console.log(result.groups);
+      this.groupResults = result.groups;
+      for(let group of this.groupResults){
+        console.log("HubID: " + group.hubId);
 
-
-
+        if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
+          this.hubIds.push(group.hubId);
+        }
+      }
+      this.getHubInfo(this.hubIds[0]);
+    },
     getHubInfo: function(hubID){
       this.axiosInstance.get("device/api/" + hubID + "/hub")
         .then(response => {
@@ -140,25 +182,9 @@ export default {
 
     getGroupInfoHandler: function(result, status) {
       console.log(status);
-      
+
     },
-    getUserGroupsHandler: function(result, status) {
-      this.groupResults = result.groups;
-      for(let group of this.groupResults){
-        console.log("HubID: " + group.hubId);
 
-        if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
-          this.hubIds.push(group.hubId);
-        }
-
-        
-      }
-
-      this.getHubInfo(this.hubIds[0]);
-    },
-    refreshAuthToken(refreshToken){
-
-    }
   },
   components: {
     Device,
