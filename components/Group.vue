@@ -53,8 +53,7 @@ export default {
   .card{
     max-width: 20%;
     min-width:350px;
-    margin:10px;
-    height:auto;
+    height:100%;
   }
 
   .card-content{

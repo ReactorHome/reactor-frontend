@@ -6,29 +6,34 @@
           {{ device.name }}
         </p>
         <p class="card-header-icon" aria-label="more options">
-          <span class="icon has-text-danger">
-            <i class="fa fa-exclamation-circle"></i>
+          <span class="icon has-text-success">
+              <i class="fa fa-check-square"></i>
           </span>
         </p>
       </header>
       <div class="card-content">
       <div class="content">
-        <p>State: {{ this.outletState }}</p>
-        <button v-on:click="outletStateHandler">Toggle Outlet</button>
+        <div class="field">
+          <input id="switchSmall" type="checkbox" name="switchSmall" class="switch is-small" v-model="outletState" v-on:click="outletStateHandler">
+          <label for="switchSmall" v-if="!outletState">Turn on</label>
+          <label for="switchSmall" v-if="outletState">Turn off</label>
+
+        </div>
 
         <br />
 
-        <button class="button is-danger">View Alert</button>
+        <!--<button class="button is-danger">View Alert</button>-->
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Manage Group</a>
+      <a href="#" class="card-footer-item">Manage Device</a>
     </footer>
   </div>
   </section>
 </template>
 
 <script>
+
 export default {
   name: "device",
   props: [
@@ -72,8 +77,7 @@ export default {
   .card{
     max-width: 20%;
     min-width:350px;
-    margin:10px;
-    height:auto;
+    height:100%;
   }
 
   .card-content{

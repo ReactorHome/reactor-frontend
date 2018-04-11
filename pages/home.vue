@@ -230,7 +230,12 @@ export default {
     position:relative;
   }
 
-  .sectionWrapper section:last-child{
+  .sectionCardWrapper .card-container{
+    height:100%;
+    padding: 10px;
+  }
+
+  #events{
     height:20%;
   }
 
