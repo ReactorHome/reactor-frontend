@@ -59,7 +59,6 @@ export default {
   name: "home",
   data: function () {
     return {
-
       groupResults: [],
       deviceResults: [],
       bearerToken: "",
@@ -72,10 +71,10 @@ export default {
 
   },
   created() {
-    this.retrieveToken();
+
   },
   beforeMount() {
-    this.createAxiosInstance();
+    this.retrieveToken();
   },
   mounted: function() {
 
@@ -96,6 +95,8 @@ export default {
             this.refreshToken()
           }else{
             this.bearerToken = localStorage.accessToken;
+            console.log("Finished getting token");
+            this.createAxiosInstance();
           }
         }
       } else {
@@ -124,6 +125,8 @@ export default {
           localStorage.accessToken = result.access_token;
           localStorage.expires = expireTime;
           localStorage.refreshToken = result.refresh_token;
+          console.log("Finished getting token");
+          this.createAxiosInstance();
         })
         .catch(function (response) {
           //handle error
