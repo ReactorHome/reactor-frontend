@@ -10,7 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device v-for="device in this.deviceResults" :key="device.id" :device="device"></device>
+          <device v-for="device in this.deviceResults" :key="device.id" :device="device" :hubId="currentHub"></device>
         </div>
       </section>
 
@@ -63,7 +63,8 @@ export default {
       deviceResults: [],
       bearerToken: "",
       axiosInstance: null,
-      hubIds: []
+      hubIds: [],
+      currentHub: ""
     }
   },
 
@@ -125,7 +126,7 @@ export default {
           localStorage.accessToken = result.access_token;
           localStorage.expires = expireTime;
           localStorage.refreshToken = result.refresh_token;
-          console.log("Finished getting token");
+          console.log("Finished getting new token");
           this.createAxiosInstance();
         })
         .catch(function (response) {
@@ -144,6 +145,7 @@ export default {
         failure: console.log("Couldnt get group info")
       });
     },
+
     getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
@@ -164,10 +166,11 @@ export default {
           this.hubIds.push(group.hubId);
         }
       }
-      this.getHubInfo(this.hubIds[0]);
+      this.currentHub = this.hubIds[0];
+      this.getHubInfo();
     },
-    getHubInfo: function(hubID){
-      this.axiosInstance.get("device/api/" + hubID + "/hub")
+    getHubInfo: function(){
+      this.axiosInstance.get("device/api/" + this.currentHub + "/hub")
         .then(response => {
           console.log(response);
           this.getHubInfoHandler(response.data, response.status);
@@ -180,9 +183,6 @@ export default {
       this.deviceResults = result.devices;
       console.log(this.deviceResults);
     },
-
-
-
     getGroupInfoHandler: function(result, status) {
       console.log(status);
 

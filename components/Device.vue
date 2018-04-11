@@ -13,8 +13,8 @@
       </header>
       <div class="card-content">
       <div class="content">
-        <p><b>Devices:</b> 2</p>
-        <p><b>Events:</b> 1</p>
+        <p>State: {{ this.outletState }}</p>
+        <button v-on:click="outletStateHandler">Toggle Outlet</button>
 
         <br />
 
@@ -32,8 +32,39 @@
 export default {
   name: "device",
   props: [
-    "device"
+    "device",
+    "hubId"
   ],
+  data: function(){
+    return{
+      outletState: this.device.on
+    }
+  },
+  methods: {
+    outletStateHandler: function () {
+      if (this.outletState) {
+        this.outletState = false;
+      } else {
+        this.outletState = true;
+      }
+
+      this.$parent.axiosInstance.patch(
+        "device/api/" + this.hubId + "/outlet/",
+        {
+          "hardware_id": this.device.hardware_id,
+          "on": this.outletState
+        }
+      )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+    }
+  }
+
 }
 </script>
 
