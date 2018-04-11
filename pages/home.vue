@@ -162,6 +162,8 @@ export default {
       for(let group of this.groupResults){
         console.log("HubID: " + group.hubId);
 
+
+        //Find all unique hubs
         if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
           this.hubIds.push(group.hubId);
         }
@@ -172,6 +174,7 @@ export default {
     getHubInfo: function(){
       this.axiosInstance.get("device/api/" + this.currentHub + "/hub")
         .then(response => {
+
           console.log(response);
           this.getHubInfoHandler(response.data, response.status);
         })

@@ -6,8 +6,11 @@
           {{ device.name }}
         </p>
         <p class="card-header-icon" aria-label="more options">
-          <span class="icon has-text-success">
+          <span class="icon has-text-success tooltip is-tooltip-bottom" data-tooltip="This device is connected and operating correctly." v-if="device.connected">
               <i class="fa fa-check-square"></i>
+          </span>
+          <span class="icon has-text-danger tooltip is-tooltip-bottom" data-tooltip="This device is not connected or operating incorrectly." v-if="!device.connected">
+              <i class="fa fa-exclamation-circle"></i>
           </span>
         </p>
       </header>
@@ -17,8 +20,8 @@
           <input id="switchSmall" type="checkbox" name="switchSmall" class="switch is-small" v-model="outletState" v-on:click="outletStateHandler">
           <label for="switchSmall" v-if="!outletState">Turn on</label>
           <label for="switchSmall" v-if="outletState">Turn off</label>
-
         </div>
+        <p>Model: {{ device.model }}</p>
 
         <br />
 

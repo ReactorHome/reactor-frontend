@@ -22,7 +22,8 @@
       </header>
       <div class="card-content">
       <div class="content">
-        <p><b>Owner:</b> {{ group.owner.username }}</p>
+        <p><b>Owner:</b> {{ group.owner.firstName }} {{ group.owner.lastName }}</p>
+        <p>Users: {{ group.accountList.length + 1 }}</p>
         <!--<p><b>Events:</b> {{ group.events.length }}</p>-->
 
         <br />
