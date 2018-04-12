@@ -20,7 +20,7 @@
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    <input class="input" type="text" :value="group.name">
+                    <input class="input" type="text" :value="hub.hubData.name">
                   </p>
                 </div>
               </div>
@@ -106,9 +106,9 @@
 <script>
 
   export default {
-    name: "groupSettings",
+    name: "hubSettings",
     props: [
-      "group",
+      "hub",
       "isActive"
     ],
     data: function(){
