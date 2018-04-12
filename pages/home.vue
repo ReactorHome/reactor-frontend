@@ -10,7 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device v-for="device in this.deviceResults" :key="device.id" :device="device" :hubId="currentHub"></device>
+          <device v-for="device in this.currentHub.devices" :key="device.id" :device="device" :hubId="currentHub"></device>
         </div>
       </section>
 
@@ -21,7 +21,9 @@
           <a class="button is-primary">Add Group</a>
         </div>
         <div class="sectionCardWrapper">
-          <group v-for="group in this.groupResults" :key="group.id" :group="group"></group>
+          <!--The first card in the groups will always be the hub group-->
+          <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
+          <hubGroup :hub="currentHub" v-if="this.currentHub.hubData != undefined"></hubGroup>
         </div>
       </section>
       <section id="events">
@@ -50,6 +52,8 @@ import Device from '~/components/Device.vue';
 import Navbar from '~/components/Navbar.vue';
 import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
+import HubGroup from '~/components/HubGroup.vue';
+
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -64,7 +68,14 @@ export default {
       bearerToken: "",
       axiosInstance: null,
       hubIds: [],
-      currentHub: ""
+      currentHub: {},
+      hubs:[{
+        deviceGroups:[],
+        hubData:{},
+        devices:[],
+        users:[],
+        owner:{}
+      }]
     }
   },
 
@@ -75,10 +86,10 @@ export default {
 
   },
   beforeMount() {
-    this.retrieveToken();
+
   },
   mounted: function() {
-
+    this.retrieveToken();
   },
   methods: {
     createAxiosInstance: function(){
@@ -159,20 +170,27 @@ export default {
     getUserGroupsHandler: function(result, status) {
       console.log(result.groups);
       this.groupResults = result.groups;
-      for(let group of this.groupResults){
+      for(let [index, group] of this.groupResults.entries()){
         console.log("HubID: " + group.hubId);
 
+        this.hubs[index].users = group.accountList;
+        this.hubs[index].owner = group.owner;
+        this.hubs[index].hubData.hubId = group.hubId;
+        this.hubs[index].hubData.hubGroupId = group.id;
+        this.hubs[index].hubData.name = group.name;
 
-        //Find all unique hubs
-        if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
-          this.hubIds.push(group.hubId);
-        }
+
+        // Find all unique hubs
+        // if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
+        //   this.hubIds.push(group.hubId);
+        // }
       }
-      this.currentHub = this.hubIds[0];
+      this.currentHub = this.hubs[0];
       this.getHubInfo();
     },
     getHubInfo: function(){
-      this.axiosInstance.get("device/api/" + this.currentHub + "/hub")
+      console.log("Getting Hub information");
+      this.axiosInstance.get("device/api/" + this.currentHub.hubData.hubId + "/hub")
         .then(response => {
 
           console.log(response);
@@ -183,8 +201,11 @@ export default {
         });
     },
     getHubInfoHandler: function(result, status){
-      this.deviceResults = result.devices;
-      console.log(this.deviceResults);
+      // this.deviceResults = result.devices;
+      console.log("Adding devices to the master list");
+      this.currentHub.devices = result.devices;
+      // this.groupResults[0].devices = this.deviceResults;
+      // console.log(this.deviceResults);
     },
     getGroupInfoHandler: function(result, status) {
       console.log(status);
@@ -196,7 +217,9 @@ export default {
     Device,
     Navbar,
     Alert,
-    Group
+    Group,
+    HubGroup,
+
   }
 }
 </script>

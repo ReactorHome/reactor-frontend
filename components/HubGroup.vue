@@ -3,7 +3,7 @@
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
-          {{ group.name }}
+          {{ hub.hubData.name }}
         </p>
         <p class="card-header-icon" aria-label="more options">
 
@@ -22,32 +22,33 @@
       </header>
       <div class="card-content">
       <div class="content">
-        <p><b>Owner:</b> {{ group.owner.firstName }} {{ group.owner.lastName }}</p>
-        <p>Users: {{ group.accountList.length + 1 }}</p>
-        <!--<p><b>Events:</b> {{ group.events.length }}</p>-->
+        <p>Owner: {{ hub.owner.firstName }} {{ hub.owner.lastName }}</p>
+        <p>Users: {{ hub.users.length + 1 }}</p>
+        <p>Devices: {{ hub.devices.length }}</p>
 
         <br />
 
-        <button class="button is-danger">View Alert</button>
+        <!--<button class="button is-danger">View Alert</button>-->
       </div>
     </div>
     <footer class="card-footer">
       <a href="#" class="card-footer-item" @click="showModal = true">Manage Group</a>
     </footer>
   </div>
-    <groupSettings :group="group" v-if="showModal" @close="showModal = false"></groupSettings>
+    <hubSettings :hub="hub" v-if="showModal" @close="showModal = false"></hubSettings>
+
   </section>
 
 
 </template>
 
 <script>
-  import GroupSettings from '~/components/GroupSettings.vue';
+  import HubSettings from '~/components/HubSettings.vue';
 
 export default {
-  name: "group",
+  name: "hubGroup",
   props: [
-    "group"
+    "hub"
   ],
   data: function(){
     return{
@@ -55,7 +56,7 @@ export default {
     }
   },
   components:{
-    GroupSettings
+    HubSettings
   }
 
 }
