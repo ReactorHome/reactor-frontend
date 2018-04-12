@@ -32,19 +32,31 @@
       </div>
     </div>
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">Manage Group</a>
+      <a href="#" class="card-footer-item" @click="showModal = true">Manage Group</a>
     </footer>
   </div>
+    <groupSettings :group="group" v-if="showModal" @close="showModal = false"></groupSettings>
   </section>
+
+
 </template>
 
 <script>
+  import GroupSettings from '~/components/GroupSettings.vue';
 
 export default {
   name: "group",
   props: [
     "group"
   ],
+  data: function(){
+    return{
+      showModal:false
+    }
+  },
+  components:{
+    GroupSettings
+  }
 
 }
 //console.log(this.group);

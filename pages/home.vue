@@ -51,6 +51,7 @@ import Navbar from '~/components/Navbar.vue';
 import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
 
+
 const axios = require('axios');
 const lodash = require('lodash');
 
@@ -196,7 +197,7 @@ export default {
     Device,
     Navbar,
     Alert,
-    Group
+    Group,
   }
 }
 </script>
