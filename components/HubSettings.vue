@@ -30,20 +30,28 @@
 
             <table class="table is-fullwidth is-striped">
               <tbody>
-              <tr >
-
+              <tr v-for="device in this.hub.devices" :key="device.id">
+                <td>{{ device.name }}</td>
+                <td>
+                  <span class="icon has-text-success tooltip is-tooltip-bottom" data-tooltip="This device is connected and operating correctly." v-if="device.connected">
+                      <i class="fa fa-check-square"></i>
+                  </span>
+                          <span class="icon has-text-danger tooltip is-tooltip-bottom" data-tooltip="This device is not connected or operating incorrectly." v-if="!device.connected">
+                      <i class="fa fa-exclamation-circle"></i>
+                  </span>
+                </td>
               </tr>
 
 
-              <tr>
-                <td>Bedroom Light</td>
-                <td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>
-              </tr>
-              <tr>
-              </tr><tr>
-                <td>Bedroom Box Fan</td>
-                <td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>
-              </tr>
+              <!--<tr>-->
+                <!--<td>Bedroom Light</td>-->
+                <!--<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>-->
+              <!--</tr>-->
+              <!--<tr>-->
+              <!--</tr><tr>-->
+                <!--<td>Bedroom Box Fan</td>-->
+                <!--<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>-->
+              <!--</tr>-->
               </tbody>
             </table>
           </div>
@@ -67,7 +75,7 @@
 
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">Creator</label>
+                <label class="label">Owner</label>
               </div>
               <div class="field-body">
                 <div class="field">
