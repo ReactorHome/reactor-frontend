@@ -10,7 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device v-for="device in this.currentHub.devices" :key="device.id" :device="device" :hubId="currentHub"></device>
+          <device v-for="(device, index) in currentHub.devices" :key="index" :device="device"></device>
         </div>
       </section>
 
@@ -23,7 +23,7 @@
         <div class="sectionCardWrapper">
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
-          <hubGroup :hub="currentHub" v-if="this.currentHub.hubData != undefined"></hubGroup>
+          <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
         </div>
       </section>
       <section id="events">
@@ -132,7 +132,7 @@ export default {
           console.log(response);
           let result = response.data;
           let currentDT = Date.now();
-          let expireTime = currentDT + result.expires_in;
+          let expireTime = currentDT + (result.expires_in * 1000);
 
           localStorage.accessToken = result.access_token;
           localStorage.expires = expireTime;
@@ -204,6 +204,7 @@ export default {
       // this.deviceResults = result.devices;
       console.log("Adding devices to the master list");
       this.currentHub.devices = result.devices;
+      console.log(this.currentHub.devices);
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },

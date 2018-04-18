@@ -174,7 +174,7 @@ export default {
       console.log("Into Login Handler");
 
       let currentDT = Date.now();
-      let expireTime = currentDT + result.expires_in;
+      let expireTime = currentDT + (result.expires_in * 1000);
 
       console.log("Current UTC: " + currentDT + " new expire time: " + expireTime);
 
