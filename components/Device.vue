@@ -17,9 +17,9 @@
       <div class="card-content">
       <div class="content">
         <div class="field">
-          <input id="switchSmall" type="checkbox" name="switchSmall" class="switch is-small" v-model="outletState" v-on:click="outletStateHandler">
-          <label for="switchSmall" v-if="!outletState">Turn on</label>
-          <label for="switchSmall" v-if="outletState">Turn off</label>
+          <input id="switchSmall" type="checkbox" name="switchSmall" class="switch is-small" v-model="this.outletState" v-on:click="this.outletStateHandler">
+          <label for="switchSmall" v-if="!this.outletState">Turn on</label>
+          <label for="switchSmall" v-if="this.outletState">Turn off</label>
         </div>
         <p>Model: {{ device.model }}</p>
 
@@ -41,7 +41,7 @@ export default {
   name: "device",
   props: [
     "device",
-    "hubId"
+    "hub"
   ],
   data: function(){
     return{
@@ -50,25 +50,30 @@ export default {
   },
   methods: {
     outletStateHandler: function () {
-      if (this.outletState) {
-        this.outletState = false;
-      } else {
-        this.outletState = true;
-      }
+      console.log(this);
+      console.log(this.outletState);
+      this.outletState = !this.outletState;
+      console.log(this.outletState);
 
-      this.$parent.axiosInstance.patch(
-        "device/api/" + this.hubId + "/outlet/",
-        {
-          "hardware_id": this.device.hardware_id,
-          "on": this.outletState
-        }
-      )
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      // if (this.outletState) {
+      //   this.outletState = false;
+      // } else {
+      //   this.outletState = true;
+      // }
+
+      // this.$parent.axiosInstance.patch(
+      //   "device/api/" + this.hubId + "/outlet/",
+      //   {
+      //     "hardware_id": this.device.hardware_id,
+      //     "on": this.outletState
+      //   }
+      // )
+      //   .then(response => {
+      //     console.log(response);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
 
     }
   }

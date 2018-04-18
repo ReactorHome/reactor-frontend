@@ -80,24 +80,25 @@
               <div class="field-body">
                 <div class="field">
                   <div class="control">
-                    <input class="input" type="text" value="Your Name" readonly="">
+                    <label>{{ this.hub.owner.firstName }} {{ this.hub.owner.lastName }} </label>
                   </div>
+
                 </div>
               </div>
             </div>
 
-            <div class="field is-horizontal">
-              <div class="field-label is-normal">
-                <!-- <label class="label">Owner</label> -->
-              </div>
-              <div class="field-body">
-                <div class="field">
-                  <div class="control">
-                    <button class="button is-danger">Delete Group</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <!--<div class="field is-horizontal">-->
+              <!--<div class="field-label is-normal">-->
+                <!--&lt;!&ndash; <label class="label">Owner</label> &ndash;&gt;-->
+              <!--</div>-->
+              <!--<div class="field-body">-->
+                <!--<div class="field">-->
+                  <!--<div class="control">-->
+                    <!--<button class="button is-danger">Delete Group</button>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
         </div>
       </section>
