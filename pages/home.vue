@@ -30,18 +30,21 @@
         <div class="sectionTitleBar">
           <h3 class="title">Events</h3>
         </div>
-        <div class="eventWrapper">
-          <alert type="warning">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="danger">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="none">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
+        <div id="eventWrapper" v-if="this.currentHub.hasOwnProperty('events')">
+          <event v-for="event in this.currentHub.events" :key="event.id" :event="event"></event>
         </div>
       </section>
+
+        <section id="alerts">
+          <div class="sectionTitleBar">
+            <h3 class="title">Alerts</h3>
+          </div>
+          <div id="alertsWrapper" v-if="this.currentHub.hasOwnProperty('alerts')">
+            <alert v-for="alert in this.currentHub.alerts" :key="alert.id" :alert="alert"></alert>
+          </div>
+        </section>
+
+
     </div>
   </section>
 </template>
@@ -50,10 +53,10 @@
 
 import Device from '~/components/Device.vue';
 import Navbar from '~/components/Navbar.vue';
-import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
-
+import Event from '~/components/Event.vue';
+import Alert from '~/components/Alert.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -74,7 +77,9 @@ export default {
         hubData:{},
         devices:[],
         users:[],
-        owner:{}
+        owner:{},
+        events:[],
+        alerts:[]
       }]
     }
   },
@@ -143,30 +148,27 @@ export default {
       .catch(function (response) {
           //handle error
           console.log(response);
+          this.badToken();
       });
     },
-
-
-    getGroupInfo: function(token) {
-      $.ajax({
-        url: "https://api.myreactorhome.com/user/api/groups/1",
-        type: "GET",
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
-        success: this.getGroupInfoHandler,
-        failure: console.log("Couldnt get group info")
-      });
-    },
-
     getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
           console.log(response);
+
           this.getUserGroupsHandler(response.data, response.status);
         })
         .catch(error => {
             console.log(error);
+            this.retrieveToken();
         });
     },
+    badToken: function() {
+      console.log("There was an issue with the token!");
+      this.$router.push("login");
+    },
+
+    //Call other getters from here, current hub is now set
     getUserGroupsHandler: function(result, status) {
       console.log(result.groups);
       this.groupResults = result.groups;
@@ -179,14 +181,11 @@ export default {
         this.hubs[index].hubData.hubGroupId = group.id;
         this.hubs[index].hubData.name = group.name;
 
-
-        // Find all unique hubs
-        // if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
-        //   this.hubIds.push(group.hubId);
-        // }
       }
       this.currentHub = this.hubs[0];
       this.getHubInfo();
+      this.getEvents();
+      this.getAlerts();
     },
     getHubInfo: function(){
       console.log("Getting Hub information");
@@ -198,6 +197,7 @@ export default {
         })
         .catch(error => {
             console.log(error);
+            this.retrieveToken();
         });
     },
     getHubInfoHandler: function(result, status){
@@ -208,18 +208,44 @@ export default {
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
-    getGroupInfoHandler: function(result, status) {
-      console.log(status);
-
+    getEvents: function(){
+      this.axiosInstance.get("user/api/events/" + this.currentHub.hubData.hubGroupId)
+        .then(response => {
+          console.log(response);
+          this.getEventsHandler(response.data, response.status);
+        })
+        .catch(error => {
+          console.log(error);
+          this.retrieveToken();
+        });
     },
+    getEventsHandler: function(result, status){
+      this.currentHub.events = result.events.reverse();
+    },
+    getAlerts: function(){
+      this.axiosInstance.get("user/api/alerts/" + this.currentHub.hubData.hubGroupId)
+        .then(response => {
+          console.log(response);
+          this.getAlertsHandler(response.data, response.status);
+        })
+        .catch(error => {
+          console.log(error);
+          this.retrieveToken();
+        });
+    },
+    getAlertsHandler: function(result,status){
+      this.currentHub.alerts = result.alerts.reverse();
+      console.log("Alert handler");
+    }
 
   },
   components: {
     Device,
     Navbar,
-    Alert,
     Group,
     HubGroup,
+    Event,
+    Alert
 
   }
 }
@@ -262,10 +288,6 @@ export default {
     padding: 10px;
   }
 
-  #events{
-    height:20%;
-  }
-
   .sectionCardWrapper{
     display:flex;
     flex-flow:row;
@@ -277,8 +299,13 @@ export default {
     left:0;
   }
 
-  .eventWrapper{
+  #events, #alerts{
+    height:20%;
+  }
+
+  #eventWrapper, #alertsWrapper{
     display:flex;
     flex-flow:row;
+    overflow-x: scroll;
   }
 </style>
