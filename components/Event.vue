@@ -1,5 +1,5 @@
 <template>
-  <section class="alert-container" v-if="event.hasOwnProperty('json')">
+  <section class="alert-container" v-if="event.hasOwnProperty('json') && event.json == undefined">
     <article class="message is-warning">
       <div class="message-body">
         <p slot="body"><b>{{ this.event.device }}</b></p>
