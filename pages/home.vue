@@ -148,17 +148,24 @@ export default {
       .catch(function (response) {
           //handle error
           console.log(response);
+          this.badToken();
       });
     },
     getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
           console.log(response);
+
           this.getUserGroupsHandler(response.data, response.status);
         })
         .catch(error => {
             console.log(error);
+            this.retrieveToken();
         });
+    },
+    badToken: function() {
+      console.log("There was an issue with the token!");
+      this.$router.push("login");
     },
 
     //Call other getters from here, current hub is now set
@@ -190,6 +197,7 @@ export default {
         })
         .catch(error => {
             console.log(error);
+            this.retrieveToken();
         });
     },
     getHubInfoHandler: function(result, status){
@@ -208,6 +216,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.retrieveToken();
         });
     },
     getEventsHandler: function(result, status){
@@ -221,6 +230,7 @@ export default {
         })
         .catch(error => {
           console.log(error);
+          this.retrieveToken();
         });
     },
     getAlertsHandler: function(result,status){
