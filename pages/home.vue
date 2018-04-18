@@ -128,7 +128,7 @@ export default {
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       })
-        .then(function (response) {
+      .then((response) => {
           console.log(response);
           let result = response.data;
           let currentDT = Date.now();
@@ -139,11 +139,11 @@ export default {
           localStorage.refreshToken = result.refresh_token;
           console.log("Finished getting new token");
           this.createAxiosInstance();
-        })
-        .catch(function (response) {
+      })
+      .catch(function (response) {
           //handle error
           console.log(response);
-        });
+      });
     },
 
 
