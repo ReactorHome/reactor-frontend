@@ -30,16 +30,14 @@
         <div class="sectionTitleBar">
           <h3 class="title">Events</h3>
         </div>
-        <div class="eventWrapper">
-          <alert type="warning">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="danger">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="none">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
+        <div class="eventWrapper" v-if="this.currentHub.hasOwnProperty('events')">
+          <event v-for="event in this.currentHub.events" :key="event.id" :event="event"></event>
+          <!--<alert type="danger">-->
+            <!--<p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>-->
+          <!--</alert>-->
+          <!--<alert type="none">-->
+            <!--<p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>-->
+          <!--</alert>-->
         </div>
       </section>
     </div>
@@ -53,6 +51,7 @@ import Navbar from '~/components/Navbar.vue';
 import Alert from '~/components/Alert.vue';
 import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
+import Event from '~/components/Event.vue';
 
 
 const axios = require('axios');
@@ -74,7 +73,8 @@ export default {
         hubData:{},
         devices:[],
         users:[],
-        owner:{}
+        owner:{},
+        events:[],
       }]
     }
   },
@@ -187,6 +187,7 @@ export default {
       }
       this.currentHub = this.hubs[0];
       this.getHubInfo();
+      this.getEvents();
     },
     getHubInfo: function(){
       console.log("Getting Hub information");
@@ -208,10 +209,23 @@ export default {
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
-    getGroupInfoHandler: function(result, status) {
-      console.log(status);
-
+    getEvents: function(){
+      this.axiosInstance.get("user/api/events/" + this.currentHub.hubData.hubGroupId)
+        .then(response => {
+          console.log(response);
+          this.getEventsHandler(response.data, response.status);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
+    getEventsHandler: function(result, status){
+      this.currentHub.events = result.events;
+    }
+    // getGroupInfoHandler: function(result, status) {
+    //   console.log(status);
+    //
+    // },
 
   },
   components: {
@@ -220,6 +234,7 @@ export default {
     Alert,
     Group,
     HubGroup,
+    Event
 
   }
 }
@@ -280,5 +295,6 @@ export default {
   .eventWrapper{
     display:flex;
     flex-flow:row;
+    overflow-x: scroll;
   }
 </style>
