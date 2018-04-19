@@ -112,7 +112,7 @@ export default {
           }else{
             this.bearerToken = localStorage.accessToken;
             console.log("Finished getting token");
-            this.createAxiosInstance();
+            this.checkBearerToken(this.bearerToken);
           }
         }
       } else {
@@ -141,14 +141,40 @@ export default {
           localStorage.accessToken = result.access_token;
           localStorage.expires = expireTime;
           localStorage.refreshToken = result.refresh_token;
+
+          this.bearerToken = result.access_token;
+
           console.log("Finished getting new token");
-          this.createAxiosInstance();
+          this.checkBearerToken(result.access_token);
       })
-      .catch(function (response) {
+      .catch((response) => {
           //handle error
           console.log(response);
-          this.badToken();
+        console.log("Could not get a new token!");
+        this.logout();
       });
+    },
+    checkBearerToken: function(token){
+      axios.get('https://api.myreactorhome.com/user/oauth/check_token',{
+        params: {
+          token: token
+        }
+      })
+        .then((response) => {
+          console.log(response);
+          this.createAxiosInstance();
+        })
+        .catch((response) => {
+          //handle error
+          console.log(response);
+          console.log("There was an issue with the token!");
+          this.logout();
+        });
+    },
+    logout: function(){
+      console.log("Logging the user out and resetting localstorage");
+
+      this.$router.push("login");
     },
     getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
@@ -162,10 +188,7 @@ export default {
             this.refreshToken();
         });
     },
-    badToken: function() {
-      console.log("There was an issue with the token!");
-      this.$router.push("login");
-    },
+
 
     //Call other getters from here, current hub is now set
     getUserGroupsHandler: function(result, status) {
