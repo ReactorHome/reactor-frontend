@@ -15,14 +15,15 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css' }
+      { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.1/css/bulma.css' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://cdn.jsdelivr.net/npm/bulma-extensions@1.0.14/dist/bulma-extensions.min.css' }
 
     ]
   },
   css: [
-    '~/css/main.css'
   ],
   /*
+    '~/css/main.css'
   ** Customize the progress bar color
   */
   loading: { color: '#3B8070' },

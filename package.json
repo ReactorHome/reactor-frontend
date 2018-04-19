@@ -13,7 +13,11 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^1.0.0"
+    "axios": "^0.18.0",
+    "bulma-switch": "^1.0.1",
+    "lodash": "^4.17.5",
+    "nuxt": "^1.0.0",
+    "vue": "^2.5.13"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
