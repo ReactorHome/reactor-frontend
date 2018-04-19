@@ -10,7 +10,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device v-for="(device, index) in currentHub.devices" :key="index" :device="device"></device>
+          <device v-for="(device, index) in currentHub.devices" :key="index" :device="device" :hub="currentHub.hubData.hubId"></device>
         </div>
       </section>
 
@@ -26,23 +26,23 @@
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
         </div>
       </section>
-      <section id="events">
-        <div class="sectionTitleBar">
-          <h3 class="title">Events</h3>
-        </div>
-        <div id="eventWrapper" v-if="this.currentHub.hasOwnProperty('events')">
-          <event v-for="event in this.currentHub.events" :key="event.id" :event="event"></event>
-        </div>
-      </section>
+      <!--<section id="events">-->
+        <!--<div class="sectionTitleBar">-->
+          <!--<h3 class="title">Events</h3>-->
+        <!--</div>-->
+        <!--<div id="eventWrapper" v-if="this.currentHub.hasOwnProperty('events')">-->
+          <!--<event v-for="event in this.currentHub.events" :key="event.id" :event="event"></event>-->
+        <!--</div>-->
+      <!--</section>-->
 
-        <section id="alerts">
-          <div class="sectionTitleBar">
-            <h3 class="title">Alerts</h3>
-          </div>
-          <div id="alertsWrapper" v-if="this.currentHub.hasOwnProperty('alerts')">
-            <alert v-for="alert in this.currentHub.alerts" :key="alert.id" :alert="alert"></alert>
-          </div>
-        </section>
+        <!--<section id="alerts">-->
+          <!--<div class="sectionTitleBar">-->
+            <!--<h3 class="title">Alerts</h3>-->
+          <!--</div>-->
+          <!--<div id="alertsWrapper" v-if="this.currentHub.hasOwnProperty('alerts')">-->
+            <!--<alert v-for="alert in this.currentHub.alerts" :key="alert.id" :alert="alert"></alert>-->
+          <!--</div>-->
+        <!--</section>-->
 
 
     </div>
@@ -67,7 +67,6 @@ export default {
   data: function () {
     return {
       groupResults: [],
-      deviceResults: [],
       bearerToken: "",
       axiosInstance: null,
       hubIds: [],
@@ -160,7 +159,7 @@ export default {
         })
         .catch(error => {
             console.log(error);
-            this.retrieveToken();
+            this.refreshToken();
         });
     },
     badToken: function() {
