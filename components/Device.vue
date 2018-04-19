@@ -65,6 +65,7 @@ export default {
       //   "device/api/" + this.hubId + "/outlet/",
       //   {
       //     "hardware_id": this.device.hardware_id,
+      //     "type": 1,
       //     "on": this.outletState
       //   }
       // )
