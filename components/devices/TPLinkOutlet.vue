@@ -3,9 +3,9 @@
       <div class="card-content">
         <div class="content">
           <div class="field">
-            <input id="switchSmall" type="checkbox" :name="'switchSmall' + device.id" class="switch is-small" v-model="this.outletState" @click="this.outletState = !this.outletState">
-            <label :for="'switchSmall' + device.id" v-if="!this.outletState">Turn on</label>
-            <label :for="'switchSmall' + device.id" v-if="this.outletState">Turn off</label>
+            <input :id="'switchSmall' + device.id" type="checkbox" :name="'switchSmall' + device.id" class="switch is-small" v-model="outletState" @click="outletState = !outletState">
+            <label :for="'switchSmall' + device.id" v-if="!outletState">Turn on</label>
+            <label :for="'switchSmall' + device.id" v-if="outletState">Turn off</label>
           </div>
           <p>Model: {{ device.model }}</p>
 
