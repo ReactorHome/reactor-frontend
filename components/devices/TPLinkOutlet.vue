@@ -3,7 +3,7 @@
       <div class="card-content">
         <div class="content">
           <div class="field">
-            <input :id="'switchSmall' + device.id" type="checkbox" :name="'switchSmall' + device.id" class="switch is-small" v-model="outletState" @click="outletState = !outletState">
+            <input :id="'switchSmall' + device.id" type="checkbox" :name="'switchSmall' + device.id" class="switch is-small" v-model="outletState" @click="changeOutletState">
             <label :for="'switchSmall' + device.id" v-if="!outletState">Turn on</label>
             <label :for="'switchSmall' + device.id" v-if="outletState">Turn off</label>
           </div>
@@ -23,7 +23,8 @@
   export default {
     name: "tp-link-outlet",
     props: [
-      "device"
+      "device",
+      "hub"
     ],
     data: function(){
       return{
@@ -31,7 +32,28 @@
       }
     },
     methods: {
+      changeOutletState: function(){
+        this.outletState = !this.outletState
 
+        this.$parent.$parent.axiosInstance.patch(
+          "device/api/" + this.hub + "/outlet/",
+          {
+            "hardware_id": this.device.hardware_id,
+            "on": this.outletState,
+            "type": 1
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+
+
+
+      },
     }
 
   }
