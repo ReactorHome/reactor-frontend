@@ -32,9 +32,9 @@
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    <input :id="'switchSmall' + device.id" type="checkbox" :name="'switchSmall' + device.id" class="switch is-small" v-model="$parent.outletState" @click="emit('changeState')">
-                    <label :for="'switchSmall' + device.id" v-if="!$parent.outletState">Turn on</label>
-                    <label :for="'switchSmall' + device.id" v-if="$parent.outletState">Turn off</label>
+                    <input :id="'settingsSwitchSmall' + device.id" type="checkbox" :name="'settingsSwitchSmall' + device.id" class="switch is-small" v-model="$parent.outletState" @click="device.on = !device.on">
+                    <label :for="'settingsSwitchSmall' + device.id" v-if="!device.on">Turn on</label>
+                    <label :for="'settingsSwitchSmall' + device.id" v-if="device.on">Turn off</label>
                   </p>
                 </div>
               </div>
@@ -83,14 +83,11 @@
                 </div>
               </div>
             </div>
-
-            <div class="field is-horizontal">
-            </div>
           </div>
         </div>
       </section>
       <footer class="modal-card-foot">
-        <button class="button is-success modelClose" @click="$emit('close')">Save changes</button>
+        <button class="button is-success modelClose" @click="updateParentDevice">Save changes</button>
         <button class="button modelClose" @click="$emit('close')">Cancel</button>
       </footer>
     </div>
@@ -111,14 +108,16 @@
       }
     },
     methods: {
-      save: function(){
-        // this.$parent.device = this.device;
-        // this.emit('updateOutletState');
+      updateParentDevice: function(){
+        this.$parent.device = this.device;
+        this.$parent.updateOutletState();
       },
     }
   }
 </script>
 
 <style scoped>
-
+.modal-card{
+  width:1000px;
+}
 </style>

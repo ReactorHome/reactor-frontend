@@ -3,22 +3,41 @@
     <div class="card-content">
       <div class="content">
         <div class="field">
-          <input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="emit('changeOutletState')">
+          <input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="changeAndUpdateBulbState">
           <label  :for="'switchSmall' + device.id" v-if="!bulbState">Turn on</label>
           <label  :for="'switchSmall' + device.id" v-if="bulbState">Turn off</label>
         </div>
-        <p>Brightness: {{ device.brightness }}</p>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">Brightness</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control is-expanded">
+                <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="100" v-model="device.brightness" type="range" @change="updateLightState">
+
+                <!--<input :id="'settingsSwitchSmall' + device.id" type="checkbox" :name="'settingsSwitchSmall' + device.id" class="switch is-small" v-model="$parent.outletState" @click="device.on = !device.on">-->
+                <!--<label :for="'settingsSwitchSmall' + device.id" v-if="!device.on">Turn on</label>-->
+                <!--<label :for="'settingsSwitchSmall' + device.id" v-if="device.on">Turn off</label>-->
+              </p>
+            </div>
+          </div>
+        </div>
 
         <p>Model: {{ device.model }}</p>
 
         <br />
+
+
+
+
       </div>
     </div>
     <footer class="card-footer" @click="showModal = true">
       <a href="#" class="card-footer-item">Manage Device</a>
     </footer>
 
-    <philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false"></philips-hue-light-settings>
+    <philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false" @changeState="buldState = !bulbState"></philips-hue-light-settings>
 
   </div>
 </template>
@@ -41,15 +60,21 @@
       }
     },
     methods: {
-      changeLightState: function(){
+      changeAndUpdateBulbState: function(){
+        this.changeBulbState();
+        this.updateLightState();
+      },
+      changeBulbState: function(){
         this.bulbState = !this.bulbState;
-
+      },
+      updateLightState: function(){
         this.$parent.$parent.axiosInstance.patch(
           "device/api/" + this.hub + "/light/",
           {
             "hardware_id": this.device.hardware_id,
             "on": this.bulbState,
-            "type": 0
+            "type": 0,
+            "brightness": this.device.brightness
           },
           { headers: { 'Content-Type': 'application/json' } }
         )
