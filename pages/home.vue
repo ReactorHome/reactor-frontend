@@ -1,6 +1,155 @@
 <template>
   <section class="page-container">
-    <Navbar></Navbar>
+    <nav class="navbar is-primary" role="navigation" aria-label="navigation">
+      <a class="navbar-item">
+        <p class="navTitle title">Reactor</p>
+      </a>
+
+      <div class="navbar-end">
+        <a class="navbar-item is-active">
+          Dashboard
+        </a>
+
+        <a class="navbar-item">
+          Supported Devices
+        </a>
+
+        <!--<a class="navbar-item">-->
+          <!--Account-->
+        <!--</a>-->
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Account
+          </a>
+          <div class="navbar-dropdown is-boxed is-right">
+            <a class="navbar-item" @click="userSettingsModal = true">
+              User Settings
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" @click="this.logout">
+              Logout
+            </a>
+          </div>
+      </div>
+      </div>
+
+    </nav>
+
+    <div id="groupModel" class="modal is-active" v-if="this.userSettingsModal == true">
+      <div class="modal-background modelClose" @click="userSettingsModal = false"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">User Settings</p>
+          <button class="delete" aria-label="close" @click="userSettingsModal = false"></button>
+        </header>
+        <section class="modal-card-body">
+
+          <div class="columns deviceColumns">
+            <div class="column is-half">
+
+              <p class="title text-center">Settings</p>
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Name</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<p class="control is-expanded">-->
+                      <!--test-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<p class="title text-center">Devices</p>-->
+
+              <!--<table class="table is-fullwidth is-striped">-->
+                <!--<tbody>-->
+                <!--<tr v-for="device in this.currentHub.devices" :key="device.id">-->
+                  <!--<td>{{ device.name }}</td>-->
+                  <!--<td>-->
+                  <!--<span class="icon has-text-success tooltip is-tooltip-bottom" data-tooltip="This device is connected and operating correctly." v-if="device.connected">-->
+                      <!--<i class="fa fa-check-square"></i>-->
+                  <!--</span>-->
+                    <!--<span class="icon has-text-danger tooltip is-tooltip-bottom" data-tooltip="This device is not connected or operating incorrectly." v-if="!device.connected">-->
+                      <!--<i class="fa fa-exclamation-circle"></i>-->
+                  <!--</span>-->
+                  <!--</td>-->
+                <!--</tr>-->
+
+
+                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td>Bedroom Light</td>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr><tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td>Bedroom Box Fan</td>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                <!--</tbody>-->
+              <!--</table>-->
+            </div>
+
+            <div class="column is-half">
+
+              <p class="title text-center">Details</p>
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Created</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<p class="control is-expanded">-->
+                      <!--<input class="input" type="date" value="2017-02-17" readonly="">-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Owner</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<div class="control">-->
+                      <!--test-->
+                    <!--</div>-->
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<div class="field is-horizontal">-->
+              <!--<div class="field-label is-normal">-->
+              <!--&lt;!&ndash; <label class="label">Owner</label> &ndash;&gt;-->
+              <!--</div>-->
+              <!--<div class="field-body">-->
+              <!--<div class="field">-->
+              <!--<div class="control">-->
+              <!--<button class="button is-danger">Delete Group</button>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </section>
+
+        <footer class="modal-card-foot">
+          <button class="button is-success modelClose" @click="userSettingsModal = false">Save changes</button>
+          <button class="button modelClose" @click="userSettingsModal = false">Cancel</button>
+        </footer>
+
+      </div>
+    </div>
+
+
+
+
     <div class="sectionWrapper">
 
 
@@ -10,7 +159,7 @@
           <a class="button is-primary">Add Device</a>
         </div>
         <div class="sectionCardWrapper">
-          <device v-for="(device, index) in currentHub.devices" :key="index" :device="device"></device>
+          <device v-for="(device, index) in currentHub.devices" :key="index" :device="device" :hub="currentHub.hubData.hubId"></device>
         </div>
       </section>
 
@@ -26,22 +175,25 @@
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
         </div>
       </section>
-      <section id="events">
-        <div class="sectionTitleBar">
-          <h3 class="title">Events</h3>
-        </div>
-        <div class="eventWrapper">
-          <alert type="warning">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="danger">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-          <alert type="none">
-            <p slot="body">This is some text for a sample body. I hope Reiker likes the work that I've done</p>
-          </alert>
-        </div>
-      </section>
+      <!--<section id="events">-->
+        <!--<div class="sectionTitleBar">-->
+          <!--<h3 class="title">Events</h3>-->
+        <!--</div>-->
+        <!--<div id="eventWrapper" v-if="this.currentHub.hasOwnProperty('events')">-->
+          <!--<event v-for="event in this.currentHub.events" :key="event.id" :event="event"></event>-->
+        <!--</div>-->
+      <!--</section>-->
+
+        <!--<section id="alerts">-->
+          <!--<div class="sectionTitleBar">-->
+            <!--<h3 class="title">Alerts</h3>-->
+          <!--</div>-->
+          <!--<div id="alertsWrapper" v-if="this.currentHub.hasOwnProperty('alerts')">-->
+            <!--<alert v-for="alert in this.currentHub.alerts" :key="alert.id" :alert="alert"></alert>-->
+          <!--</div>-->
+        <!--</section>-->
+
+
     </div>
   </section>
 </template>
@@ -49,11 +201,11 @@
 <script>
 
 import Device from '~/components/Device.vue';
-import Navbar from '~/components/Navbar.vue';
-import Alert from '~/components/Alert.vue';
+// import Navbar from '~/components/Navbar.vue';
 import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
-
+import Event from '~/components/Event.vue';
+import Alert from '~/components/Alert.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -63,8 +215,8 @@ export default {
   name: "home",
   data: function () {
     return {
+      userSettingsModal: false,
       groupResults: [],
-      deviceResults: [],
       bearerToken: "",
       axiosInstance: null,
       hubIds: [],
@@ -74,7 +226,9 @@ export default {
         hubData:{},
         devices:[],
         users:[],
-        owner:{}
+        owner:{},
+        events:[],
+        alerts:[]
       }]
     }
   },
@@ -108,7 +262,7 @@ export default {
           }else{
             this.bearerToken = localStorage.accessToken;
             console.log("Finished getting token");
-            this.createAxiosInstance();
+            this.checkBearerToken(this.bearerToken);
           }
         }
       } else {
@@ -128,7 +282,7 @@ export default {
         data: bodyFormData,
         config: {headers: {'Content-Type': 'multipart/form-data'}}
       })
-        .then(function (response) {
+      .then((response) => {
           console.log(response);
           let result = response.data;
           let currentDT = Date.now();
@@ -137,36 +291,58 @@ export default {
           localStorage.accessToken = result.access_token;
           localStorage.expires = expireTime;
           localStorage.refreshToken = result.refresh_token;
+
+          this.bearerToken = result.access_token;
+
           console.log("Finished getting new token");
-          this.createAxiosInstance();
-        })
-        .catch(function (response) {
+          this.checkBearerToken(result.access_token);
+      })
+      .catch((response) => {
           //handle error
           console.log(response);
-        });
-    },
-
-
-    getGroupInfo: function(token) {
-      $.ajax({
-        url: "https://api.myreactorhome.com/user/api/groups/1",
-        type: "GET",
-        beforeSend: function(xhr){xhr.setRequestHeader('Authorization', "Bearer " + token);},
-        success: this.getGroupInfoHandler,
-        failure: console.log("Couldnt get group info")
+        console.log("Could not get a new token!");
+        this.logout();
       });
     },
-
+    checkBearerToken: function(token){
+      axios.get('https://api.myreactorhome.com/user/oauth/check_token',{
+        params: {
+          token: token
+        }
+      })
+        .then((response) => {
+          console.log(response);
+          this.createAxiosInstance();
+        })
+        .catch((response) => {
+          //handle error
+          console.log(response);
+          console.log("There was an issue with the token!");
+          this.logout();
+        });
+    },
+    logout: function(){
+      console.log("Logging the user out and resetting localstorage");
+      localStorage.accessToken = "";
+      localStorage.expires = 0;
+      localStorage.refreshToken = "";
+      this.$router.push("login");
+    },
     getUserGroups: function() {
       this.axiosInstance.get("user/api/users/me/groups")
         .then(response => {
           console.log(response);
+
           this.getUserGroupsHandler(response.data, response.status);
         })
         .catch(error => {
             console.log(error);
+            this.refreshToken();
         });
     },
+
+
+    //Call other getters from here, current hub is now set
     getUserGroupsHandler: function(result, status) {
       console.log(result.groups);
       this.groupResults = result.groups;
@@ -179,14 +355,11 @@ export default {
         this.hubs[index].hubData.hubGroupId = group.id;
         this.hubs[index].hubData.name = group.name;
 
-
-        // Find all unique hubs
-        // if(this.hubIds.length == 0 || !this.hubIds.find(groups.hubId)){
-        //   this.hubIds.push(group.hubId);
-        // }
       }
       this.currentHub = this.hubs[0];
       this.getHubInfo();
+      this.getEvents();
+      this.getAlerts();
     },
     getHubInfo: function(){
       console.log("Getting Hub information");
@@ -198,6 +371,7 @@ export default {
         })
         .catch(error => {
             console.log(error);
+            this.retrieveToken();
         });
     },
     getHubInfoHandler: function(result, status){
@@ -208,24 +382,54 @@ export default {
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
-    getGroupInfoHandler: function(result, status) {
-      console.log(status);
-
+    getEvents: function(){
+      this.axiosInstance.get("user/api/events/" + this.currentHub.hubData.hubGroupId)
+        .then(response => {
+          console.log(response);
+          this.getEventsHandler(response.data, response.status);
+        })
+        .catch(error => {
+          console.log(error);
+          this.retrieveToken();
+        });
     },
+    getEventsHandler: function(result, status){
+      this.currentHub.events = result.events.reverse();
+    },
+    getAlerts: function(){
+      this.axiosInstance.get("user/api/alerts/" + this.currentHub.hubData.hubGroupId)
+        .then(response => {
+          console.log(response);
+          this.getAlertsHandler(response.data, response.status);
+        })
+        .catch(error => {
+          console.log(error);
+          this.retrieveToken();
+        });
+    },
+    getAlertsHandler: function(result,status){
+      this.currentHub.alerts = result.alerts.reverse();
+      console.log("Alert handler");
+    }
 
   },
   components: {
     Device,
-    Navbar,
-    Alert,
+    // Navbar,
     Group,
     HubGroup,
+    Event,
+    Alert
 
   }
 }
 </script>
 
 <style scoped>
+  .navTitle{
+    font-style: italic;
+    font-weight: 200;
+  }
   .sectionTitleBar{
     display: flex;
     flex-flow:row;
@@ -262,10 +466,6 @@ export default {
     padding: 10px;
   }
 
-  #events{
-    height:20%;
-  }
-
   .sectionCardWrapper{
     display:flex;
     flex-flow:row;
@@ -277,8 +477,13 @@ export default {
     left:0;
   }
 
-  .eventWrapper{
+  #events, #alerts{
+    height:20%;
+  }
+
+  #eventWrapper, #alertsWrapper{
     display:flex;
     flex-flow:row;
+    overflow-x: scroll;
   }
 </style>

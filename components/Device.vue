@@ -14,28 +14,16 @@
           </span>
         </p>
       </header>
-      <div class="card-content">
-      <div class="content">
-        <div class="field">
-          <input id="switchSmall" type="checkbox" name="switchSmall" class="switch is-small" v-model="this.outletState" v-on:click="this.outletStateHandler">
-          <label for="switchSmall" v-if="!this.outletState">Turn on</label>
-          <label for="switchSmall" v-if="this.outletState">Turn off</label>
-        </div>
-        <p>Model: {{ device.model }}</p>
-
-        <br />
-
-        <!--<button class="button is-danger">View Alert</button>-->
-      </div>
-    </div>
-    <footer class="card-footer">
-      <a href="#" class="card-footer-item">Manage Device</a>
-    </footer>
+      <tp-link-outlet v-if="device.model == 'HS105(US)'" :device="device" :hub="hub"></tp-link-outlet>
+      <philips-hue-light v-if="device.model == 'LWB014'" :device="device" :hub="hub"></philips-hue-light>
   </div>
   </section>
 </template>
 
 <script>
+
+  import PhilipsHueLight from './devices/PhilipsHueLight.vue';
+  import TpLinkOutlet from "./devices/TPLinkOutlet";
 
 export default {
   name: "device",
@@ -45,37 +33,15 @@ export default {
   ],
   data: function(){
     return{
-      outletState: this.device.on
+
     }
   },
   methods: {
-    outletStateHandler: function () {
-      console.log(this);
-      console.log(this.outletState);
-      this.outletState = !this.outletState;
-      console.log(this.outletState);
 
-      // if (this.outletState) {
-      //   this.outletState = false;
-      // } else {
-      //   this.outletState = true;
-      // }
-
-      // this.$parent.axiosInstance.patch(
-      //   "device/api/" + this.hubId + "/outlet/",
-      //   {
-      //     "hardware_id": this.device.hardware_id,
-      //     "on": this.outletState
-      //   }
-      // )
-      //   .then(response => {
-      //     console.log(response);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
-
-    }
+  },
+  components: {
+    TpLinkOutlet,
+    PhilipsHueLight,
   }
 
 }

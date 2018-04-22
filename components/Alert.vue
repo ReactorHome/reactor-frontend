@@ -1,8 +1,8 @@
 <template>
-  <section class="alert-container">
-    <article class="message" :class="[activeClass]">
+  <section class="alert-container" v-if="alert.hasOwnProperty('dataJson') && alert.dataJson == undefined">
+    <article class="message is-danger">
       <div class="message-body">
-        <slot name="body"></slot>
+        <slot name="body"> {{ this.alert.data }} </slot>
       </div>
     </article>
   </section>
@@ -12,26 +12,17 @@
 
 export default {
   name: "alert",
-  props: ["type"],
+  props: ["alert"],
   components: {
-    
+
   },
   data: function() {
     return {
-      activeClass: "none"
+
     }
   },
   mounted: function() {
-    switch(this.type) {
-      case "warning":
-        this.activeClass = "is-warning";
-        break;
-      case "danger":
-        this.activeClass = "is-danger";
-        break;
-      default:
-        this.activeClass = "none";
-    }
+
   }
 }
 </script>
