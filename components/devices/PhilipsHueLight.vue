@@ -15,22 +15,12 @@
             <div class="field">
               <p class="control is-expanded">
                 <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="100" v-model="device.brightness" type="range" @change="updateLightState">
-
-                <!--<input :id="'settingsSwitchSmall' + device.id" type="checkbox" :name="'settingsSwitchSmall' + device.id" class="switch is-small" v-model="$parent.outletState" @click="device.on = !device.on">-->
-                <!--<label :for="'settingsSwitchSmall' + device.id" v-if="!device.on">Turn on</label>-->
-                <!--<label :for="'settingsSwitchSmall' + device.id" v-if="device.on">Turn off</label>-->
               </p>
             </div>
           </div>
         </div>
-
         <p>Model: {{ device.model }}</p>
-
         <br />
-
-
-
-
       </div>
     </div>
     <footer class="card-footer" @click="showModal = true">
