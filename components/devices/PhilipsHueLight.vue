@@ -3,7 +3,7 @@
     <div class="card-content">
       <div class="content">
         <div class="field">
-          <input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="changeLightState">
+          <input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="emit('changeOutletState')">
           <label  :for="'switchSmall' + device.id" v-if="!bulbState">Turn on</label>
           <label  :for="'switchSmall' + device.id" v-if="bulbState">Turn off</label>
         </div>
@@ -14,15 +14,21 @@
         <br />
       </div>
     </div>
-    <footer class="card-footer">
+    <footer class="card-footer" @click="showModal = true">
       <a href="#" class="card-footer-item">Manage Device</a>
     </footer>
+
+    <philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false"></philips-hue-light-settings>
+
   </div>
 </template>
 
 <script>
 
+  import PhilipsHueLightSettings from "./deviceSettings/PhilipsHueLightSettings";
+
   export default {
+    components: {PhilipsHueLightSettings},
     name: "philips-hue-light",
     props: [
       "device",
@@ -31,6 +37,7 @@
     data: function(){
       return{
         bulbState: this.device.on,
+        showModal: false
       }
     },
     methods: {
