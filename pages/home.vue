@@ -167,8 +167,9 @@
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
-          <a class="button is-primary">Add Group</a>
+          <a class="button is-primary" @click="showAddDeviceGroupModal = true">Add Group</a>
         </div>
+        <add-device-group :devices="currentHub.devices" :hubID="currentHub.hubData.hubId" v-if="showAddDeviceGroupModal" @close="showAddDeviceGroupModal = false"></add-device-group>
         <div class="sectionCardWrapper">
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
@@ -206,6 +207,7 @@ import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
 import Event from '~/components/Event.vue';
 import Alert from '~/components/Alert.vue';
+import AddDeviceGroup from '~/components/AddDeviceGroup.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -229,7 +231,8 @@ export default {
         owner:{},
         events:[],
         alerts:[]
-      }]
+      }],
+      showAddDeviceGroupModal: false,
     }
   },
 
@@ -415,7 +418,7 @@ export default {
   },
   components: {
     Device,
-    // Navbar,
+    AddDeviceGroup,
     Group,
     HubGroup,
     Event,
