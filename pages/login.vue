@@ -26,7 +26,7 @@
       </div>
       <div class="field">
         <p class="control">
-          <button @click="requestToken" class="button is-success">
+          <button @click="requestToken" class="button is-primary">
             Login
           </button>
 
@@ -99,7 +99,7 @@
 
       <div class="field">
         <p class="control">
-          <button class="button is-success">
+          <button class="button is-primary">
             Register
           </button>
         </p>
@@ -246,6 +246,18 @@ export default {
     padding: 15px;
 
 
+  }
+  .is-primary {
+    background-color: #3a97fc !important;
+  }
+  .navbar.is-primary .navbar-end > a.navbar-item.is-active {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary:hover .navbar-end:hover > a.navbar-item:hover {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary .navbar-end .navbar-link:hover {
+    background-color: #397dfc !important;
   }
 
 
