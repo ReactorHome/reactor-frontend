@@ -174,6 +174,7 @@
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
+          <device-group v-for="group in currentHub.deviceGroups" :key="group.id" :deviceGroup="group" v-if="currentHub.deviceGroups != undefined"></device-group>
         </div>
       </section>
       <!--<section id="events">-->
@@ -208,6 +209,7 @@ import HubGroup from '~/components/HubGroup.vue';
 import Event from '~/components/Event.vue';
 import Alert from '~/components/Alert.vue';
 import AddDeviceGroup from '~/components/AddDeviceGroup.vue';
+import DeviceGroup from '~/components/DeviceGroup.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -382,6 +384,10 @@ export default {
       console.log("Adding devices to the master list");
       this.currentHub.devices = result.devices;
       console.log(this.currentHub.devices);
+
+      this.currentHub.deviceGroups = result.device_groups;
+
+
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
@@ -422,7 +428,8 @@ export default {
     Group,
     HubGroup,
     Event,
-    Alert
+    Alert,
+    DeviceGroup
 
   }
 }

@@ -22,6 +22,7 @@
       </header>
       <div class="card-content">
       <div class="content">
+        <p>Type: Hub</p>
         <p><b>Owner:</b> {{ group.owner.firstName }} {{ group.owner.lastName }}</p>
         <p>Users: {{ group.accountList.length + 1 }}</p>
         <!--<p><b>Events:</b> {{ group.events.length }}</p>-->
