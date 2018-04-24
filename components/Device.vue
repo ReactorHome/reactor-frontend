@@ -14,8 +14,8 @@
           </span>
         </p>
       </header>
-      <tp-link-outlet v-if="device.model == 'HS105(US)'" :device="device"></tp-link-outlet>
-      <philips-hue-light v-if="device.model == 'LWB014'" :device="device"></philips-hue-light>
+      <tp-link-outlet v-if="device.model == 'HS105(US)'" :device="device" :hub="hub"></tp-link-outlet>
+      <philips-hue-light v-if="device.model == 'LWB014'" :device="device" :hub="hub"></philips-hue-light>
   </div>
   </section>
 </template>
@@ -48,6 +48,9 @@ export default {
 </script>
 
 <style scoped>
+  .has-text-success {
+      color: #3a97fc !important;
+  }
   .card{
     max-width: 20%;
     min-width:350px;

@@ -22,6 +22,7 @@
       </header>
       <div class="card-content">
       <div class="content">
+        <p>Type: Hub</p>
         <p>Owner: {{ hub.owner.firstName }} {{ hub.owner.lastName }}</p>
         <p>Users: {{ hub.users.length + 1 }}</p>
         <p>Devices: {{ hub.devices.length }}</p>

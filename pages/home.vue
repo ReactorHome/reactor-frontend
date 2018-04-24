@@ -1,6 +1,155 @@
 <template>
   <section class="page-container">
-    <Navbar></Navbar>
+    <nav class="navbar is-primary" role="navigation" aria-label="navigation">
+      <a class="navbar-item">
+        <p class="navTitle title">Reactor</p>
+      </a>
+
+      <div class="navbar-end">
+        <a class="navbar-item is-active">
+          Dashboard
+        </a>
+
+        <a class="navbar-item">
+          Supported Devices
+        </a>
+
+        <!--<a class="navbar-item">-->
+          <!--Account-->
+        <!--</a>-->
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Account
+          </a>
+          <div class="navbar-dropdown is-boxed is-right">
+            <a class="navbar-item" @click="userSettingsModal = true">
+              User Settings
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item" @click="this.logout">
+              Logout
+            </a>
+          </div>
+      </div>
+      </div>
+
+    </nav>
+
+    <div id="groupModel" class="modal is-active" v-if="this.userSettingsModal == true">
+      <div class="modal-background modelClose" @click="userSettingsModal = false"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">User Settings</p>
+          <button class="delete" aria-label="close" @click="userSettingsModal = false"></button>
+        </header>
+        <section class="modal-card-body">
+
+          <div class="columns deviceColumns">
+            <div class="column is-half">
+
+              <p class="title text-center">Settings</p>
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Name</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<p class="control is-expanded">-->
+                      <!--test-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<p class="title text-center">Devices</p>-->
+
+              <!--<table class="table is-fullwidth is-striped">-->
+                <!--<tbody>-->
+                <!--<tr v-for="device in this.currentHub.devices" :key="device.id">-->
+                  <!--<td>{{ device.name }}</td>-->
+                  <!--<td>-->
+                  <!--<span class="icon has-text-success tooltip is-tooltip-bottom" data-tooltip="This device is connected and operating correctly." v-if="device.connected">-->
+                      <!--<i class="fa fa-check-square"></i>-->
+                  <!--</span>-->
+                    <!--<span class="icon has-text-danger tooltip is-tooltip-bottom" data-tooltip="This device is not connected or operating incorrectly." v-if="!device.connected">-->
+                      <!--<i class="fa fa-exclamation-circle"></i>-->
+                  <!--</span>-->
+                  <!--</td>-->
+                <!--</tr>-->
+
+
+                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td>Bedroom Light</td>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr><tr>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td>Bedroom Box Fan</td>&ndash;&gt;-->
+                <!--&lt;!&ndash;<td><span class="has-text-danger"><i class="fa fa-trash" aria-hidden="true"></i></span></td>&ndash;&gt;-->
+                <!--&lt;!&ndash;</tr>&ndash;&gt;-->
+                <!--</tbody>-->
+              <!--</table>-->
+            </div>
+
+            <div class="column is-half">
+
+              <p class="title text-center">Details</p>
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Created</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<p class="control is-expanded">-->
+                      <!--<input class="input" type="date" value="2017-02-17" readonly="">-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<div class="field is-horizontal">-->
+                <!--<div class="field-label is-normal">-->
+                  <!--<label class="label">Owner</label>-->
+                <!--</div>-->
+                <!--<div class="field-body">-->
+                  <!--<div class="field">-->
+                    <!--<div class="control">-->
+                      <!--test-->
+                    <!--</div>-->
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<div class="field is-horizontal">-->
+              <!--<div class="field-label is-normal">-->
+              <!--&lt;!&ndash; <label class="label">Owner</label> &ndash;&gt;-->
+              <!--</div>-->
+              <!--<div class="field-body">-->
+              <!--<div class="field">-->
+              <!--<div class="control">-->
+              <!--<button class="button is-danger">Delete Group</button>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        </section>
+
+        <footer class="modal-card-foot">
+          <button class="button is-success modelClose" @click="userSettingsModal = false">Save changes</button>
+          <button class="button modelClose" @click="userSettingsModal = false">Cancel</button>
+        </footer>
+
+      </div>
+    </div>
+
+
+
+
     <div class="sectionWrapper">
 
 
@@ -18,12 +167,14 @@
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
-          <a class="button is-primary">Add Group</a>
+          <a class="button is-primary" @click="showAddDeviceGroupModal = true">Add Group</a>
         </div>
+        <add-device-group :devices="currentHub.devices" :hubID="currentHub.hubData.hubId" v-if="showAddDeviceGroupModal" @close="showAddDeviceGroupModal = false"></add-device-group>
         <div class="sectionCardWrapper">
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
+          <device-group v-for="group in currentHub.deviceGroups" :key="group.id" :deviceGroup="group" :hub="currentHub.hubData.hubId" v-if="currentHub.deviceGroups != undefined"></device-group>
         </div>
       </section>
       <!--<section id="events">-->
@@ -52,11 +203,13 @@
 <script>
 
 import Device from '~/components/Device.vue';
-import Navbar from '~/components/Navbar.vue';
+// import Navbar from '~/components/Navbar.vue';
 import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
 import Event from '~/components/Event.vue';
 import Alert from '~/components/Alert.vue';
+import AddDeviceGroup from '~/components/AddDeviceGroup.vue';
+import DeviceGroup from '~/components/DeviceGroup.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -66,6 +219,7 @@ export default {
   name: "home",
   data: function () {
     return {
+      userSettingsModal: false,
       groupResults: [],
       bearerToken: "",
       axiosInstance: null,
@@ -79,7 +233,8 @@ export default {
         owner:{},
         events:[],
         alerts:[]
-      }]
+      }],
+      showAddDeviceGroupModal: false,
     }
   },
 
@@ -99,7 +254,7 @@ export default {
     createAxiosInstance: function(){
       this.axiosInstance = axios.create({
         baseURL: 'https://api.myreactorhome.com/',
-        timeout: 1000,
+        timeout: 3000,
         headers: {'Authorization' : "Bearer " + this.bearerToken}
       });
       this.getUserGroups();
@@ -173,7 +328,9 @@ export default {
     },
     logout: function(){
       console.log("Logging the user out and resetting localstorage");
-
+      localStorage.accessToken = "";
+      localStorage.expires = 0;
+      localStorage.refreshToken = "";
       this.$router.push("login");
     },
     getUserGroups: function() {
@@ -227,6 +384,10 @@ export default {
       console.log("Adding devices to the master list");
       this.currentHub.devices = result.devices;
       console.log(this.currentHub.devices);
+
+      this.currentHub.deviceGroups = result.device_groups;
+
+
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
@@ -263,17 +424,37 @@ export default {
   },
   components: {
     Device,
-    Navbar,
+    AddDeviceGroup,
     Group,
     HubGroup,
     Event,
-    Alert
+    Alert,
+    DeviceGroup
 
   }
 }
 </script>
 
 <style scoped>
+  .is-primary {
+    background-color: #3a97fc !important;
+  }
+  .navbar.is-primary .navbar-end > a.navbar-item.is-active {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary:hover .navbar-end:hover > a.navbar-item:hover {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary .navbar-end .navbar-link:hover {
+    background-color: #397dfc !important;
+  }
+  .switch[type=checkbox].is-small {
+      background-color: red;
+  }
+  .navTitle{
+    font-style: italic;
+    font-weight: 200;
+  }
   .sectionTitleBar{
     display: flex;
     flex-flow:row;
