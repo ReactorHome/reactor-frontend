@@ -48,6 +48,9 @@ export default {
 </script>
 
 <style scoped>
+  .has-text-success {
+      color: #3a97fc !important;
+  }
   .card{
     max-width: 20%;
     min-width:350px;

@@ -436,6 +436,21 @@ export default {
 </script>
 
 <style scoped>
+  .is-primary {
+    background-color: #3a97fc !important;
+  }
+  .navbar.is-primary .navbar-end > a.navbar-item.is-active {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary:hover .navbar-end:hover > a.navbar-item:hover {
+    background-color: #397dfc !important;
+  }
+  .navbar.is-primary .navbar-end .navbar-link:hover {
+    background-color: #397dfc !important;
+  }
+  .switch[type=checkbox].is-small {
+      background-color: red;
+  }
   .navTitle{
     font-style: italic;
     font-weight: 200;

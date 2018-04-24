@@ -81,6 +81,9 @@
 </script>
 
 <style scoped>
+  .switch[type=checkbox]:checked+label::before {
+    background-color: #3a97fc;
+  }
   .card{
     max-width: 20%;
     min-width:350px;
