@@ -167,12 +167,14 @@
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
-          <a class="button is-primary">Add Group</a>
+          <a class="button is-primary" @click="showAddDeviceGroupModal = true">Add Group</a>
         </div>
+        <add-device-group :devices="currentHub.devices" :hubID="currentHub.hubData.hubId" v-if="showAddDeviceGroupModal" @close="showAddDeviceGroupModal = false"></add-device-group>
         <div class="sectionCardWrapper">
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
+          <device-group v-for="group in currentHub.deviceGroups" :key="group.id" :deviceGroup="group" :hub="currentHub.hubData.hubId" v-if="currentHub.deviceGroups != undefined"></device-group>
         </div>
       </section>
       <!--<section id="events">-->
@@ -206,6 +208,8 @@ import Group from '~/components/Group.vue';
 import HubGroup from '~/components/HubGroup.vue';
 import Event from '~/components/Event.vue';
 import Alert from '~/components/Alert.vue';
+import AddDeviceGroup from '~/components/AddDeviceGroup.vue';
+import DeviceGroup from '~/components/DeviceGroup.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -229,7 +233,8 @@ export default {
         owner:{},
         events:[],
         alerts:[]
-      }]
+      }],
+      showAddDeviceGroupModal: false,
     }
   },
 
@@ -249,7 +254,7 @@ export default {
     createAxiosInstance: function(){
       this.axiosInstance = axios.create({
         baseURL: 'https://api.myreactorhome.com/',
-        timeout: 1000,
+        timeout: 3000,
         headers: {'Authorization' : "Bearer " + this.bearerToken}
       });
       this.getUserGroups();
@@ -379,6 +384,10 @@ export default {
       console.log("Adding devices to the master list");
       this.currentHub.devices = result.devices;
       console.log(this.currentHub.devices);
+
+      this.currentHub.deviceGroups = result.device_groups;
+
+
       // this.groupResults[0].devices = this.deviceResults;
       // console.log(this.deviceResults);
     },
@@ -415,11 +424,12 @@ export default {
   },
   components: {
     Device,
-    // Navbar,
+    AddDeviceGroup,
     Group,
     HubGroup,
     Event,
-    Alert
+    Alert,
+    DeviceGroup
 
   }
 }
