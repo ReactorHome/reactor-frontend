@@ -7,17 +7,6 @@
         </p>
         <p class="card-header-icon" aria-label="more options">
 
-          <!--<span class="icon has-text-success" v-if="group.events.length == 0 && group.alerts.length == 0">-->
-            <!--<i class="fa fa-check-square"></i>-->
-          <!--</span>-->
-
-          <!--<span class="icon has-text-warning" v-if="group.events.length >= 1 && group.alerts.length == 0">-->
-            <!--<i class="fa fa-exclamation-triangle"></i>-->
-          <!--</span>-->
-
-          <!--<span class="icon has-text-danger" v-if="group.alerts.length >= 1">-->
-            <!--<i class="fa fa-exclamation-circle"></i>-->
-          <!--</span>-->
         </p>
       </header>
       <div class="card-content">
@@ -26,6 +15,8 @@
         <p><b>Owner:</b> {{ group.owner.firstName }} {{ group.owner.lastName }}</p>
         <p>Users: {{ group.accountList.length + 1 }}</p>
         <!--<p><b>Events:</b> {{ group.events.length }}</p>-->
+
+
 
         <br />
 

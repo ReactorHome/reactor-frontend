@@ -14,7 +14,7 @@
           <div class="field-body">
             <div class="field">
               <p class="control is-expanded">
-                <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="device.brightness" type="range" @change="updateLightState">
+                <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="100" v-model="device.brightness" type="range" @change="updateLightState">
               </p>
             </div>
           </div>
@@ -38,7 +38,7 @@
 
   export default {
     components: {PhilipsHueLightSettings},
-    name: "philips-hue-light",
+    name: "nest-thermostat",
     props: [
       "device",
       "hub"

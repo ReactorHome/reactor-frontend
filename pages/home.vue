@@ -174,7 +174,7 @@
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
           <hubGroup :hub="currentHub" v-if="currentHub.hubData != undefined"></hubGroup>
-          <device-group v-for="group in currentHub.deviceGroups" :key="group.id" :deviceGroup="group" v-if="currentHub.deviceGroups != undefined"></device-group>
+          <device-group v-for="group in currentHub.deviceGroups" :key="group.id" :deviceGroup="group" :hub="currentHub.hubData.hubId" v-if="currentHub.deviceGroups != undefined"></device-group>
         </div>
       </section>
       <!--<section id="events">-->
@@ -254,7 +254,7 @@ export default {
     createAxiosInstance: function(){
       this.axiosInstance = axios.create({
         baseURL: 'https://api.myreactorhome.com/',
-        timeout: 1000,
+        timeout: 3000,
         headers: {'Authorization' : "Bearer " + this.bearerToken}
       });
       this.getUserGroups();
