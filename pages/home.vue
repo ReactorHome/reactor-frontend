@@ -269,6 +269,8 @@ export default {
             console.log("Finished getting token");
             this.checkBearerToken(this.bearerToken);
           }
+        } else {
+          this.$router.push("login");
         }
       } else {
         this.$router.push("login");
