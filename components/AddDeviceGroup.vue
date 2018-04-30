@@ -4,7 +4,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Create Group of Devices</p>
-        <button class="delete" aria-label="close" @click="$emit('close')"></button>
+        <button class="delete reactor-class" aria-label="close" @click="$emit('close')"></button>
       </header>
       <section class="modal-card-body">
         <div class="columns deviceColumns">
@@ -54,8 +54,8 @@
       </section>
 
       <footer class="modal-card-foot">
-        <button class="button is-success modelClose" @click="saveGroup">Save changes</button>
-        <button class="button modelClose" @click="$emit('close')">Cancel</button>
+        <button class="button is-success modelClose reactor-class" @click="saveGroup">Save changes</button>
+        <button class="button modelClose reactor-class is-success" @click="$emit('close')">Cancel</button>
       </footer>
 
     </div>
@@ -110,6 +110,8 @@
         )
           .then(response => {
             console.log(response);
+            this.$emit('close');
+            this.$emit('refreshGroups');
           })
           .catch(error => {
             console.log(error);

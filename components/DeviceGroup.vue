@@ -16,8 +16,8 @@
 
           <div class="field" v-if="deviceGroup.types.includes(0)">
             <input :id="'switchSmall' + deviceGroup.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="onState" @click="updateOnState">
-            <label  :for="'switchSmall' + deviceGroup.id" v-if="!onState">Turn on</label>
-            <label  :for="'switchSmall' + deviceGroup.id" v-if="onState">Turn off</label>
+            <label   :for="'switchSmall' + deviceGroup.id" v-if="!onState">Turn on</label>
+            <label   :for="'switchSmall' + deviceGroup.id" v-if="onState">Turn off</label>
           </div>
 
 
@@ -28,37 +28,37 @@
             <div class="field-body">
               <div class="field">
                 <p class="control is-expanded">
-                  <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="brightness" type="range" @change="updateBrightnessState">
+                  <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="avgBrightness" type="range" @change="updateBrightnessState">
                 </p>
               </div>
             </div>
           </div>
 
-          <div class="field is-horizontal" v-if="deviceGroup.types.includes(2)">
-            <div class="field-label is-normal">
-              <label class="label">Brightness</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <p class="control is-expanded">
-                  <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="brightness" type="range" @change="updateLightState">
-                </p>
-              </div>
-            </div>
-          </div>
+          <!--<div class="field is-horizontal" v-if="deviceGroup.types.includes(2)">-->
+            <!--<div class="field-label is-normal">-->
+              <!--<label class="label">Brightness</label>-->
+            <!--</div>-->
+            <!--<div class="field-body">-->
+              <!--<div class="field">-->
+                <!--<p class="control is-expanded">-->
+                  <!--<input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="brightness" type="range" @change="updateLightState">-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
-          <div class="field is-horizontal" v-if="deviceGroup.types.includes(3)">
-            <div class="field-label is-normal">
-              <label class="label">Brightness</label>
-            </div>
-            <div class="field-body">
-              <div class="field">
-                <p class="control is-expanded">
-                  <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="brightness" type="range" @change="updateLightState">
-                </p>
-              </div>
-            </div>
-          </div>
+          <!--<div class="field is-horizontal" v-if="deviceGroup.types.includes(3)">-->
+            <!--<div class="field-label is-normal">-->
+              <!--<label class="label">Brightness</label>-->
+            <!--</div>-->
+            <!--<div class="field-body">-->
+              <!--<div class="field">-->
+                <!--<p class="control is-expanded">-->
+                  <!--<input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="brightness" type="range" @change="updateLightState">-->
+                <!--</p>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
 
 
         </div>
@@ -92,7 +92,15 @@
               break;
           }
         }
+        for (let device of this.deviceGroup.devices){
+          this.avgBrightness += device.brightness;
+        }
+        this.avgBrightness /= this.deviceGroup.devices.length;
+        console.log("Avg brightness: " + this.avgBrightness);
       }
+
+
+
     },
     name: "deviceGroup",
     props: [
@@ -104,6 +112,7 @@
         showModal:false,
         onState: true,
         brightness:0,
+        avgBrightness:0
       }
     },
     methods:{
@@ -112,19 +121,19 @@
         console.log("Onstate now is: " + this.onState);
 
 
-        // this.$parent.axiosInstance.patch(
-        //   "device/api/" + this.hub + "/device-groups/" + this.deviceGroup.id + "/state",
-        //   {
-        //     "on": this.bulbState,
-        //   },
-        //   { headers: { 'Content-Type': 'application/json' } }
-        // )
-        //   .then(response => {
-        //     console.log(response);
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //   });
+        this.$parent.axiosInstance.patch(
+          "device/api/" + this.hub + "/device-groups/" + this.deviceGroup.id + "/state",
+          {
+            "on": this.onState,
+          },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log(error);
+          });
       },
       updateBrightnessState: function(){
 
@@ -148,6 +157,9 @@
 </script>
 
 <style scoped>
+  .switch[type=checkbox]:checked+label::before {
+    background-color: #3a97fc;
+  }
   .card{
     max-width: 20%;
     min-width:350px;

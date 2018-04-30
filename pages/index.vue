@@ -26,6 +26,9 @@
 import AppLogo from '~/components/AppLogo.vue'
 
 export default {
+  beforeMount(){
+    this.$router.push('login');
+  },
   components: {
     AppLogo
   }

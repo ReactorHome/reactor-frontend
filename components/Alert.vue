@@ -31,5 +31,10 @@ export default {
   article{
     margin:0px 5px;
     max-width: 400px;
+    min-width: 200px;
+    height:100%;
+  }
+  .message-body{
+    height:100%;
   }
 </style>

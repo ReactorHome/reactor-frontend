@@ -2,24 +2,40 @@
   <div>
     <div class="card-content">
       <div class="content">
-        <div class="field">
-          <input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="changeAndUpdateBulbState">
-          <label  :for="'switchSmall' + device.id" v-if="!bulbState">Turn on</label>
-          <label  :for="'switchSmall' + device.id" v-if="bulbState">Turn off</label>
-        </div>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">Brightness</label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <p class="control is-expanded">
-                <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="100" v-model="device.brightness" type="range" @change="updateLightState">
-              </p>
-            </div>
-          </div>
-        </div>
-        <p>Model: {{ device.model }}</p>
+        <!--<div class="field">-->
+          <!--<input :id="'switchSmall' + device.id" type="checkbox" name="switchSmall" class="switch is-small" v-model="bulbState" @click="changeAndUpdateBulbState">-->
+          <!--<label  :for="'switchSmall' + device.id" v-if="!bulbState">Turn on</label>-->
+          <!--<label  :for="'switchSmall' + device.id" v-if="bulbState">Turn off</label>-->
+        <!--</div>-->
+        <!--<div class="field is-horizontal">-->
+          <!--<div class="field-label is-normal">-->
+            <!--<label class="label">Brightness</label>-->
+          <!--</div>-->
+          <!--<div class="field-body">-->
+            <!--<div class="field">-->
+              <!--<p class="control is-expanded">-->
+                <!--<input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="100" v-model="device.brightness" type="range" @change="updateLightState">-->
+              <!--</p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="field is-horizontal">-->
+          <!--<div class="field-label is-normal">-->
+            <!--<label class="label">Mode</label>-->
+          <!--</div>-->
+          <!--<div class="field-body">-->
+            <!--<div class="field">-->
+              <!--<p class="control is-expanded">-->
+                <!--{{ device.hvac_mode }}-->
+              <!--</p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+
+
+
+        <p><b>Mode:</b> {{ device.hvac_mode }}</p>
         <br />
       </div>
     </div>
@@ -27,7 +43,7 @@
       <a href="#" class="card-footer-item">Manage Device</a>
     </footer>
 
-    <philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false" @changeState="buldState = !bulbState"></philips-hue-light-settings>
+    <!--<philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false" @changeState="buldState = !bulbState"></philips-hue-light-settings>-->
 
   </div>
 </template>
@@ -50,31 +66,31 @@
       }
     },
     methods: {
-      changeAndUpdateBulbState: function(){
-        this.changeBulbState();
-        this.updateLightState();
-      },
-      changeBulbState: function(){
-        this.bulbState = !this.bulbState;
-      },
-      updateLightState: function(){
-        this.$parent.$parent.axiosInstance.patch(
-          "device/api/" + this.hub + "/light/",
-          {
-            "hardware_id": this.device.hardware_id,
-            "on": this.bulbState,
-            "type": 0,
-            "brightness": this.device.brightness
-          },
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
+      // changeAndUpdateBulbState: function(){
+      //   this.changeBulbState();
+      //   this.updateLightState();
+      // },
+      // changeBulbState: function(){
+      //   this.bulbState = !this.bulbState;
+      // },
+      // updateLightState: function(){
+      //   this.$parent.$parent.axiosInstance.patch(
+      //     "device/api/" + this.hub + "/light/",
+      //     {
+      //       "hardware_id": this.device.hardware_id,
+      //       "on": this.bulbState,
+      //       "type": 0,
+      //       "brightness": this.device.brightness
+      //     },
+      //     { headers: { 'Content-Type': 'application/json' } }
+      //   )
+      //     .then(response => {
+      //       console.log(response);
+      //     })
+      //     .catch(error => {
+      //       console.log(error);
+      //     });
+      // }
     }
 
   }
