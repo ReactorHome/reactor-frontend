@@ -10,7 +10,7 @@
           Dashboard
         </a>
 
-        <a class="navbar-item">
+        <a class="navbar-item" @click="showAddAddDeviceModal = true">
           Supported Devices
         </a>
 
@@ -156,7 +156,13 @@
       <section id="devices">
         <div class="sectionTitleBar">
           <h3 class="title">Devices</h3>
-          <a class="button is-primary">Add Device</a>
+          <a class="button is-primary" @click="showAddAddDeviceModal = true">Add Device</a>
+          <add-device v-if="showAddAddDeviceModal == true" @close="showAddAddDeviceModal = false"></add-device>
+
+          <a class="button is-primary" @click="showEventsModal = true">View Events and Alerts</a>
+          <events-and-alerts :currentHub="currentHub" v-if="showEventsModal == true" @close="showEventsModal = false"></events-and-alerts>
+          <!--<add-device v-if="showAddAddDeviceModal == true" @close="showAddAddDeviceModal = false"></add-device>-->
+
         </div>
         <div class="sectionCardWrapper">
           <device v-for="(device, index) in currentHub.devices" :key="index" :device="device" :hub="currentHub.hubData.hubId"></device>
@@ -164,12 +170,13 @@
       </section>
 
 
+
       <section id="groups">
         <div class="sectionTitleBar">
           <h3 class="title">Groups</h3>
           <a class="button is-primary" @click="showAddDeviceGroupModal = true">Add Group</a>
         </div>
-        <add-device-group :devices="currentHub.devices" :hubID="currentHub.hubData.hubId" v-if="showAddDeviceGroupModal" @close="showAddDeviceGroupModal = false"></add-device-group>
+        <add-device-group :devices="currentHub.devices" :hubID="currentHub.hubData.hubId" v-if="showAddDeviceGroupModal" @close="showAddDeviceGroupModal = false" @refreshGroups="getUserGroups"></add-device-group>
         <div class="sectionCardWrapper">
           <!--The first card in the groups will always be the hub group-->
           <!--<group v-for="group in this.groupResults" :key="group.id" :group="group"></group>-->
@@ -210,6 +217,8 @@ import Event from '~/components/Event.vue';
 import Alert from '~/components/Alert.vue';
 import AddDeviceGroup from '~/components/AddDeviceGroup.vue';
 import DeviceGroup from '~/components/DeviceGroup.vue';
+import AddDevice from '~/components/devices/AddDevice.vue';
+import EventsAndAlerts from '~/components/EventsAndAlerts.vue';
 
 const axios = require('axios');
 const lodash = require('lodash');
@@ -235,6 +244,8 @@ export default {
         alerts:[]
       }],
       showAddDeviceGroupModal: false,
+      showAddAddDeviceModal: false,
+      showEventsModal: false
     }
   },
 
@@ -431,11 +442,23 @@ export default {
     HubGroup,
     Event,
     Alert,
-    DeviceGroup
+    DeviceGroup,
+    AddDevice,
+    EventsAndAlerts
 
   }
 }
 </script>
+
+
+<style>
+  .reactor-class{
+    background-color: #397dfc !important;
+    ::before{
+      background-color: #397dfc !important;
+    }
+  }
+</style>
 
 <style scoped>
   .is-primary {
@@ -504,13 +527,5 @@ export default {
     left:0;
   }
 
-  #events, #alerts{
-    height:20%;
-  }
 
-  #eventWrapper, #alertsWrapper{
-    display:flex;
-    flex-flow:row;
-    overflow-x: scroll;
-  }
 </style>

@@ -37,8 +37,9 @@
 
   section .alert-container{
     min-width: 200px;
-    width:auto;
+    /*width:auto;*/
     margin-right:20px;
+    height:100%;
   }
 
 </style>

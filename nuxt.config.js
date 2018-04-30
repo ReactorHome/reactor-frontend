@@ -30,10 +30,17 @@ module.exports = {
   /*
   ** Build configuration
   */
+  generate:{
+    mode:'spa'
+  },
+  // router:{
+  //   base: 'localhost:8080'
+  // },
   build: {
     /*
     ** Run ESLint on save
     */
+    // publicPath: 'localhost:8080',
     extend (config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
