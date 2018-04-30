@@ -5,6 +5,7 @@
 
   <div id="loginSectionWrapper">
     <section id="login">
+      <p class="title">Login</p>
       <div class="field">
         <p class="control has-icons-left has-icons-right">
           <input class="input" type="test" placeholder="Username" v-model="loginUsername">
@@ -77,6 +78,7 @@
 
 
     <section id="register">
+      <p class="title">Register</p>
       <div class="field">
         <p class="control has-icons-left has-icons-right">
           <input class="input" type="email" placeholder="Username" v-model="createUsername">
@@ -284,6 +286,8 @@ export default {
     border: black thin solid;
     border-radius: 25px;
     padding: 15px;
+
+    margin:30px;
 
 
   }

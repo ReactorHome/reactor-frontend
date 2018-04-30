@@ -36,6 +36,7 @@
 
 
         <p><b>Mode:</b> {{ device.hvac_mode }}</p>
+        <p><b>Target: </b> {{ device.target_temperature_f }} &#176;</p>
         <br />
       </div>
     </div>
@@ -45,15 +46,16 @@
 
     <!--<philips-hue-light-settings :device="device" :hub="hub" v-if="showModal" @close="showModal = false" @changeState="buldState = !bulbState"></philips-hue-light-settings>-->
 
+    <nest-thermostate-settings :device="device" v-if="showModal" @close="showModal = false" ></nest-thermostate-settings>
   </div>
 </template>
 
 <script>
 
-  import PhilipsHueLightSettings from "./deviceSettings/PhilipsHueLightSettings";
+  import NestThermostateSettings from "./deviceSettings/NestThermostatSettings";
 
   export default {
-    components: {PhilipsHueLightSettings},
+    components: {NestThermostateSettings},
     name: "nest-thermostat",
     props: [
       "device",

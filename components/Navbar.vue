@@ -5,19 +5,19 @@
         <p class="navTitle title">Reactor</p>
       </a>
 
-      <div class="navbar-end">
-        <a class="navbar-item is-active">
-          Dashboard
-        </a>
+      <!--<div class="navbar-end">-->
+        <!--<a class="navbar-item is-active">-->
+          <!--Dashboard-->
+        <!--</a>-->
 
-        <a class="navbar-item">
-          Supported Devices
-        </a>
+        <!--<a class="navbar-item">-->
+          <!--Supported Devices-->
+        <!--</a>-->
 
-        <a class="navbar-item">
-          Account
-        </a>
-      </div>
+        <!--<a class="navbar-item">-->
+          <!--Account-->
+        <!--</a>-->
+      <!--</div>-->
 
     </nav>
   </section>
@@ -37,5 +37,6 @@ export default {
   .navTitle{
     font-style: italic;
     font-weight: 200;
+    color:white;
   }
 </style>

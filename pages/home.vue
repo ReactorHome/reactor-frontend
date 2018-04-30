@@ -49,6 +49,8 @@
 
               <p class="title text-center">Settings</p>
 
+              <p><b>There are currently no user settings available!</b></p>
+
               <!--<div class="field is-horizontal">-->
                 <!--<div class="field-label is-normal">-->
                   <!--<label class="label">Name</label>-->
@@ -479,6 +481,7 @@ export default {
   .navTitle{
     font-style: italic;
     font-weight: 200;
+    color:white;
   }
   .sectionTitleBar{
     display: flex;

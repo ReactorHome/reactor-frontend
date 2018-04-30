@@ -40,6 +40,20 @@
                 </div>
               </div>
             </div>
+
+
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">Brightness</label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded">
+                  <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="device.brightness" type="range">
+                </p>
+              </div>
+            </div>
+          </div>
           </div>
 
           <div class="column is-half">

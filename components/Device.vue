@@ -14,10 +14,10 @@
           </span>
         </p>
         <p class="card-header-icon" aria-label="more options" v-if="device.hasOwnProperty('hvac_mode')">
-          <span class="icon has-text-success tooltip is-tooltip-bottom" data-tooltip="This device operating in ECO Mode." v-if="device.connected">
+          <span class="icon has-text-success tooltip is-tooltip-left" data-tooltip="This device operating in ECO Mode." v-if="device.connected">
               <i class="fa fa-leaf"></i>
           </span>
-          <span class="icon has-text-danger tooltip is-tooltip-bottom" data-tooltip="This device is not operating in ECO Mode" v-if="!device.connected">
+          <span class="icon has-text-danger tooltip is-tooltip-left" data-tooltip="This device is not operating in ECO Mode" v-if="!device.connected">
               <i class="fa fa-leaf"></i>
           </span>
         </p>

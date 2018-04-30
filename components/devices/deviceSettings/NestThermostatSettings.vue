@@ -26,20 +26,36 @@
               </div>
             </div>
 
+            <p><b>Mode:</b> {{ device.hvac_mode }}</p>
+            <!--<p><b>Target: </b> {{ device.target_temperature_f }} &#176;</p>-->
+
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">State</label>
+                <label class="label">Temp.</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    <input :id="'settingsSwitchSmall' + device.id" type="checkbox" :name="'settingsSwitchSmall' + device.id" class="switch is-small" v-model="$parent.bulbState" @click="device.on = !device.on">
-                    <label :for="'settingsSwitchSmall' + device.id" v-if="!device.on">Turn on</label>
-                    <label :for="'settingsSwitchSmall' + device.id" v-if="device.on">Turn off</label>
+                    <input class="slider is-fullwidth is-success is-circle" step="1" min="0" max="255" v-model="device.target_temperature_f" type="range">
                   </p>
                 </div>
               </div>
             </div>
+
+            <!--<div class="field is-horizontal">-->
+              <!--<div class="field-label is-normal">-->
+                <!--<label class="label">State</label>-->
+              <!--</div>-->
+              <!--<div class="field-body">-->
+                <!--<div class="field">-->
+                  <!--<p class="control is-expanded">-->
+                    <!--<input :id="'settingsSwitchSmall' + device.id" type="checkbox" :name="'settingsSwitchSmall' + device.id" class="switch is-small" v-model="$parent.bulbState" @click="device.on = !device.on">-->
+                    <!--<label :for="'settingsSwitchSmall' + device.id" v-if="!device.on">Turn on</label>-->
+                    <!--<label :for="'settingsSwitchSmall' + device.id" v-if="device.on">Turn off</label>-->
+                  <!--</p>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
           </div>
 
           <div class="column is-half">
@@ -53,33 +69,45 @@
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    {{ device.manufacturer }}
+                    Nest
                   </p>
                 </div>
               </div>
             </div>
 
+            <!--<div class="field is-horizontal">-->
+              <!--<div class="field-label is-normal">-->
+                <!--<label class="label">Model</label>-->
+              <!--</div>-->
+              <!--<div class="field-body">-->
+                <!--<div class="field">-->
+                  <!--<p class="control is-expanded">-->
+                    <!--{{ device.model }}-->
+                  <!--</p>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">Model</label>
+                <label class="label">Can Heat</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    {{ device.model }}
+                    True
                   </p>
                 </div>
               </div>
             </div>
-
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">Supports Color</label>
+                <label class="label">Can Cool</label>
               </div>
               <div class="field-body">
                 <div class="field">
                   <p class="control is-expanded">
-                    {{ device.supports_color }}
+                    True
                   </p>
                 </div>
               </div>
@@ -99,7 +127,7 @@
 <script>
 
   export default {
-    name: "philips-hue-light-settings",
+    name: "nest-settings",
     props: [
       "device",
       "hub"
